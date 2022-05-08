@@ -56,7 +56,7 @@ class ModalPermission extends Component
                 }
                 $this->permission_check[$p->name]['id'] = $p->id; 
             }
-            // dd($this->permission_check);
+            // // dd($this->permission_check);
         }
 
         $this->dispatchBrowserEvent('open-modal-permission');

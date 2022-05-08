@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 
 class RequestUpdateUse extends FormRequest
 {
-  
+
     public function authorize()
     {
         return false;
@@ -22,19 +22,19 @@ class RequestUpdateUse extends FormRequest
             'email' => ['required','email',Rule::unique('users','email')->ignore($user)],
             'role' => "required|in:{$roles}",
             'user_status_id' => 'nullable',
-            'profile_photo_path' => 'nullable|image|mimes:jpg,png'
+            'profile_photo_path' => 'nullable|image|mimes:jpg,png,jpge'
         ];
 
         if(!$user){
             $validation_pass = [
                 'password' => 'required|confirmed'
             ];
-            
+
             $values = array_merge($values,$validation_pass);
 
         }
         return $values;
-        
+
     }
     public function messages(){
         return [

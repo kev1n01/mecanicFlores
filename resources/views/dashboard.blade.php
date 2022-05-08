@@ -4,6 +4,6 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    
-    <x-jet-welcome />
+
+    <h1>Is client</h1>
 </x-app-layout>

@@ -1,10 +1,10 @@
 <div class="col-md-3 left_col menu_fixed">
     <div class="left_col scroll-view">
-        <div class="navbar nav_title" style="border: 0;">
-            <a href="{{ route('home') }}" class="site_title">
-                <img width="50px" src="{{ asset('assets/build/images/logomecanic.png') }}"
+        <div class="navbar nav_title " style="border: 0;">
+            <a href="{{ route('admin.home') }}" class="site_title" >
+                <img width="60%" height="60%" src="{{ asset('assets/build/images/logotaller.png') }}"
                     alt="Taller automotriz Flores">
-                <span>Taller Flores</span></a>
+            </a>
         </div>
 
         <div class="clearfix"></div>
@@ -30,31 +30,35 @@
             <div class="menu_section">
                 <ul class="nav side-menu">
                     @if (canView('usuario'))
-                        <li><a href="{{ route('home') }}"
+                        <li><a href="{{ route('admin.home') }}"
                                 class="nav-link {{ request()->is('admin/home') ? 'active' : '' }}"><i
                                     class="fa fa-home"></i> Home </span></a></li>
                     @endif
 
-                    @if (canView('vendedor'))
+                    @if (canView('usuario'))
                         <li><a><i class="fa fa-dropbox"></i> Inventario <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 {{-- <li><a href="{{route('categories-products.index')}}" class="nav-link {{(request()->is('admin/categories-products/index')) ? 'active' : '' }}">Categorias</a></li> --}}
 
                                 <li><a href="index2.html">Marcas</a></li>
-                                <li><a href="index3.html">Proveedores</a></li>
-                                <li><a href="index3.html">Productos</a></li>
-                                <li><a href="index3.html">Compras</a></li>
+                                <li><a href="{{ route('providers.table') }}"
+                                       class="nav-link {{ request()->is('admin/providers') ? 'active' : '' }}">Proveedores</a></li>
+                                <li><a href="{{ route('products.table') }}"
+                                       class="nav-link {{ request()->is('admin/products') ? 'active' : '' }}">Productos</a></li>
+                                <li><a href="{{ route('purchases.table') }}"
+                                       class="nav-link {{ request()->is('admin/purchases') ? 'active' : '' }}">Compras</a></li>
+
                             </ul>
                         </li>
                     @endif
 
-                    @if (canView('cliente'))
+                    @if (canView('usuario'))
                         <li><a><i class="fa fa-users"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="{{ route('users.index') }}"
+                                <li><a href="{{ route('users.table') }}"
                                         class="nav-link {{ request()->is('admin/users') ? 'active' : '' }}">Todos los
                                         usuarios</a></li>
-                                <li><a href="{{ route('roles.index') }}"
+                                <li><a href="{{ route('roles.table') }}"
                                         class="nav-link {{ request()->is('admin/roles') ? 'active' : '' }}">Roles y
                                         permisos</a></li>
                                 <li><a href="index2.html">Cliente</a></li>
@@ -67,7 +71,7 @@
                     @if (canView('empleado'))
                         <li><a><i class="fa fa-car"></i> Vehiculos <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                {{-- <li><a href="{{route('vehicle.list')}}" class="nav-link {{(request()->is('vehicle/list')) ? 'active' : '' }}">Lista de vehiculos</a></li> --}}
+                                 <li><a href="{{route('vehicles.table')}}" class="nav-link {{(request()->is('admin/vehicles')) ? 'active' : '' }}">Lista de vehiculos</a></li>
                             </ul>
                         </li>
                     @endif
@@ -86,8 +90,16 @@
                     @endif
 
                     @if (canView('vendedor'))
-                        <li><a><i class="fa fa-cash-register"></i> Ventas <span class="fa fa-chevron-down"></span></a>
-                        </li>
+                            <li><a><i class="fa fa-cash-register"></i>Control de ventas<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{route('sales.table')}}" class="nav-link {{(request()->is('admin/sales')) ? 'active' : '' }}">
+                                            Ventas</a></li>
+                                     <li><a href="{{route('sales.create')}}" class="nav-link {{(request()->is('admin/sales/create')) ? 'active' : '' }}">
+                                             Vender</a></li>
+                                    <li><a href="{{route('cashout')}}" class="nav-link {{(request()->is('admin/cashout')) ? 'active' : '' }}">
+                                            Cierre de caja</a></li>
+                                </ul>
+                            </li>
                     @endif
 
                     @if (canView('vendedor'))

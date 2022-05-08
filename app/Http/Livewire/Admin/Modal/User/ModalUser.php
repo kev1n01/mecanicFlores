@@ -28,19 +28,14 @@ class ModalUser extends Component
     public $password = '';
     public $password_confirmation = '';
     public $profile_photo_path = null;
+    public $profile_photo_url= null;
     public $roles = [];
     public $status = [];
     protected $listeners = [
         'showModal',
         'showModalNewUser',
     ];
-    
-    // public function mount()
-    // {
-    //     $this->roles = Role::pluck('name','name');
-    //     $this->status = UserEstatus::pluck('name','id');
-    // }    
-    
+
     public function hydrate()
     {
         $this->roles = Role::pluck('name','name');
@@ -52,17 +47,24 @@ class ModalUser extends Component
         return view('livewire.admin.modal.user.modal-user');
     }
     public function showModal(User $user){
+        $this->clean();
+        $this->resetValidation();
+        $this->resetErrorBag();
         $this->user = $user;
         $this->name = $user->name;
         $this->email = $user->email;
         $this->role = $user->roles()->first()->name ?? '';
         $this->user_status_id = $user->user_status->id;
-        $this->profile_photo_path = $user->profile_photo_path;
+        $this->profile_photo_path_update = $user->profile_photo_path;
+        $this->profile_photo_url = $user->profile_photo_url;
         $this->action = 'Actualizar';
         $this->method = 'actualizar';
         $this->dispatchBrowserEvent('open-modal');
     }
     public function showModalNewUser(){
+        $this->clean();
+        $this->resetValidation();
+        $this->resetErrorBag();
         $this->user = null;
         $this->action = 'Registrar';
         $this->method = 'registrar';
@@ -80,9 +82,9 @@ class ModalUser extends Component
     }
 
     public function cerrarModal(){
-        $this->clean();  
-        $this->resetErrorBag();  
-        $this->resetValidation();  
+        $this->clean();
+        $this->resetErrorBag();
+        $this->resetValidation();
         $this->dispatchBrowserEvent('close-modal');
     }
 
@@ -93,18 +95,18 @@ class ModalUser extends Component
             $this->registrar();
         }
     }
-    
+
     public function actualizar(){
         $request = new RequestUpdateUse();
         $values = $this->validate($request->rules($this->user), $request->messages());
 
         $this->removeImage($this->user->profile_photo_path);
-        
+
         if ($values['profile_photo_path']){
             $profile = ['profile_photo_path' => $this->loadImage($values['profile_photo_path'])];
             $values = array_merge($values,$profile);
         }
-        
+
         $this->user->update($values);
         $this->user->syncRoles([$values['role']]);
 
@@ -112,16 +114,16 @@ class ModalUser extends Component
         $this->emit('userListUpdate');
         $this->emit('successful_alert','usuario actualizado correctamente');
     }
-    
+
     public function updated($label){
-        $request = new RequestUpdateUse();   
-        $this->validateOnly($label, $request->rules($this->user), $request->messages());        
+        $request = new RequestUpdateUse();
+        $this->validateOnly($label, $request->rules($this->user), $request->messages());
     }
 
     public function registrar(){
-        $request = new RequestUpdateUse();   
+        $request = new RequestUpdateUse();
         $values = $this->validate($request->rules($this->user), $request->messages());
-  
+
         $user = new User;
         $user->fill($values);
 
@@ -130,7 +132,7 @@ class ModalUser extends Component
         }
         $user->assignRole($values['role']);
         $user->password = bcrypt($values['password']);
-        
+
         $user->save();
 
         $this->cerrarModal();
@@ -146,7 +148,7 @@ class ModalUser extends Component
         if(!$profile_photo_path){
             return ;
         }
-        
+
         if(Storage::disk('public')->exists($profile_photo_path)){
             Storage::disk('public')->delete($profile_photo_path);
         }

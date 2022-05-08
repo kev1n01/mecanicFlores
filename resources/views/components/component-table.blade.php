@@ -1,5 +1,7 @@
 <div>
-    <table class="table table-striped">
-        {{$slot}}
-    </table>    
+
+        <table class="table table-striped">
+            {{$slot}}
+        </table>
+
 </div>

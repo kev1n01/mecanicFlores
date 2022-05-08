@@ -11,7 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasRoles;
     use HasApiTokens;
@@ -19,25 +19,22 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'user_status_id',
         'profile_photo_path',
+        'ruc',
+        'dni',
+        'phone',
+        'address',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -45,33 +42,25 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
+
     protected $appends = [
         'profile_photo_url',
     ];
-    
+
     public function user_status()
     {
-        return $this->belongsTo(UserEstatus::class)->withDefault();
+        return $this->belongsTo(UserEstatus::class);
     }
 
     public function getImageUserAttribute(){
-        return $this->profile_photo_path ?? 'profile-photos/default.jpg';
+        return $this->profile_photo_path ?? $this->profile_photo_url;
     }
-    
+
     public function scopeTermino($query,$termino){
         if($termino === ''){
             return;
@@ -81,13 +70,13 @@ class User extends Authenticatable
         ->orWhere('email','like',"%{$termino}%")
         ->orWhere('id','like',"%{$termino}%");
     }
-  
+
     public function scopeStatus($query,$status){
         if($status === ''){
             return;
         }
 
-        return $query->where('user_status_id','like',"%{$status}%");
+        return $query->where('user_status_id',"{$status}");
     }
     public function scopeName($query,$name){
         if($name === ''){

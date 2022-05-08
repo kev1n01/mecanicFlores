@@ -1,5 +1,14 @@
 
 /* table   */
+.my-custom-scrollbar {
+    position: relative;
+    height: 600px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
 .th-pointer{
     cursor:pointer;
 }
@@ -14,12 +23,39 @@
 .tr-custom{
     text-align: center;
 }
+.thead-basic{
+    background: #2A3F54;
+    color: #ffffff;
+}
 /* table */
+.badge-color{
+    background-color: #FFFFFF;
+    color: #0f0f0f;
+}
+/* Color basic  all*/
+.color-basic{
+    background: #2A3F54;
+}
+.color-basic-2{
+    background: #1ABB9C;
+    color: #FFFFFF;
+}
+/* Color basic  all*/
+
+/*pagination color custom*/
+.page-link{
+    color: #2A3F54;
+}
+.page-item.active .page-link{
+    background-color: #2A3F54;
+    border-color: #2A3F54;
+}
+/*pagination color custom*/
 
 /* media 600px */
 @media (max-width: 600px) {
-    
-    
+
+
 }
 /* media 600px */
 

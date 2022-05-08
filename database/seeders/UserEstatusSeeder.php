@@ -14,6 +14,12 @@ class UserEstatusSeeder extends Seeder
      */
     public function run()
     {
-        UserEstatus::factory(2)->create();
+
+        UserEstatus::factory()->create([
+            'name' => 'active'
+        ]);
+        UserEstatus::factory()->create([
+            'name' => 'inactive'
+        ]);
     }
 }

@@ -1,7 +1,7 @@
 <div>
     <nav aria-label="breadcrumb breadcrumb-custom">
         <ol class="breadcrumb breadcrumb-custom">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
         </ol>
     </nav>
@@ -25,19 +25,32 @@
                     placeholder="Busqueda por datos en general ">
             </div>
 
-            <button class="btn btn-secondary " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+            <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
                 type="button" wire:click="clear">
                 <i class="fas fa-eraser"></i><span> Limpiar</span>
             </button>
 
             @can('usuario create')
-            <a class="btn btn-dark " wire:click="showModal" type="button" data-toggle="tooltip" data-placement="top"
-                title="Crear nuevo usuario">
-                Crear Nuevo
-            </a>
+            <button class="btn btn-dark color-basic " wire:click="showModal" type="button" data-toggle="tooltip"
+                data-placement="top" title="Crear nuevo usuario">
+                <span><i class="fas fa-plus"></i> Crear Nuevo</span>
+            </button>
             @endcan
 
-
+            <button type="button" class="btn btn-dark color-basic dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown"
+                aria-expanded="false" data-offset="10,20">
+                <i class="fas fa-file-excel"></i>
+                Exportar
+                @if ($selectedRows)
+                <span class="badge  badge-default badge-color">{{  count($selectedRows)  }}</span>
+                @endif
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                <a class="dropdown-item " href="{{ route('users.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> pdf simple</a>
+                <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+            </div>
         </div>
 
 
@@ -45,21 +58,17 @@
         <div class="card-body">
 
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-striped">
                     <tr>
                         <th></th>
-
                         <th></th>
-
                         <th>
-                            <input class="form-control" placeholder="nombre" type="text" wire:model="nameSearch">
+                            <input class="form-control " placeholder="nombre" type="text" wire:model="nameSearch">
                         </th>
-
                         <th>
                             <input class="form-control" placeholder="corre electronico" type="text"
                                 wire:model="emailSearch">
                         </th>
-
                         <th>
                             <select class="form-control " wire:model="user_status_id">
                                 <option value="">Seleciona estado</option>
@@ -68,7 +77,6 @@
                                 @endforeach
                             </select>
                         </th>
-
                         <th>
 
                             <select class="form-control " wire:model="user_role">
@@ -86,46 +94,61 @@
                         </th>
                     </tr>
 
-                    <thead class="thead-light">
+                    <thead class="thead-basic">
                         <tr>
-                            <th width="60px" wire:click="sortable('id')" class="th-pointer" scope="col">id
-                                <span class=" th-span fas fa{{ $camp === 'id' ? $icon : '-sort' }} "></span>
+                            <th class="table-th text-center">
+                                <div class="icheck-primary" style="height: 15px">
+                                    <input wire:model="selectPageRows" type="checkbox" value="1" name="todo2"
+                                        id="todoCheck2">
+                                    <label for="todoCheck2"></label>
+                                </div>
                             </th>
 
-                            <th scope="col">Imagen</th>
-                            <th width="25%" wire:click="sortable('name')" class="th-pointer" scope="col">Nombre
+                            <th class="table-th text-center" scope="col">Imagen</th>
+                            <th width="20%" wire:click="sortable('name')" class="th-pointer table-th text-center" scope="col">Nombre
                                 <span class=" th-span fas fa{{ $camp === 'name' ? $icon : '-sort' }}"></span>
                             </th>
 
-                            <th wire:click="sortable('email')" class="th-pointer" scope="col">Correo electrónico
+                            <th wire:click="sortable('email')" class="th-pointer table-th text-center" scope="col">Correo electrónico
                                 <span class=" th-span fas fa{{ $camp === 'email' ? $icon : '-sort' }}"></span>
                             </th>
-                            <th scope="col">Estado</th>
+                            <th class="table-th text-center" scope="col">Estado</th>
 
-                            <th scope="col">Rol</th>
+                            <th class="table-th text-center" scope="col">Rol</th>
 
-                            <th scope="col">Acciones</th>
+                            <th class="table-th text-center" scope="col">Acciones</th>
                         </tr>
                     </thead>
                     @if ($users->count())
                     <tbody>
                         @foreach ($users as $user)
                         <tr class="tr-custom">
+                            <th style="width: 10px;">
+                                <div class="icheck-primary">
+                                    <input wire:model="selectedRows" type="checkbox" value="{{ $user->id }}"
+                                        name="todo2" id="{{ $user->id }}">
+                                    <label for="{{ $user->id }}"></label>
+                                </div>
+                            </th>
 
-                            <td>{{ $user->id }}</td>
                             <td>
-                                <img src="{{ asset('storage/' . $user->image_user) }}" width="60px" height="60px"
-                                    class="rounded-circle" alt="{{ $user->name }}">
+                                @if($user->profile_photo_path)
+                                    <img src="{{ asset('storage/'.$user->profile_photo_path) }}" width="60px" height="60px"
+                                        class="rounded-circle" alt="{{ $user->name}}">
+                                @else
+                                    <img src="{{ $user->profile_photo_url }} " width="60px" height="60px"
+                                         class="rounded-circle" alt="{{ $user->name }}">
+                                @endif
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->user_status->name }}</td>
                             <td>
-                                <span class="badge badge-success">{{ $user->roles()->first()->name ?? 'N/A' }}</span>
+                                <h6><span class="badge color-basic-2">{{ $user->roles()->first()->name ?? 'N/A' }}</span></h6>
                             </td>
                             <td width="17%">
                                 @can('usuario update')
-                                <a href="javascript:void(0)" class="btn btn-primary"
+                                <a href="javascript:void(0)" class="btn btn-dark color-basic"
                                     wire:click="showModal({{ $user->id }})" data-toggle="tooltip" data-placement="top"
                                     title="Editar usuario">
                                     <i class="far fa-edit"></i>
@@ -133,14 +156,14 @@
                                 @endcan
 
                                 @can('usuario delete')
-                                <a href="javascript:void(0)" class="btn btn-danger"
-                                    wire:click="deleteUser({{ $user->id }})" data-toggle="tooltip" data-placement="top"
+                                <a href="javascript:void(0)" class="btn btn-dark color-basic"
+                                    onclick="Confirm({{ $user->id }},'delUser')" data-toggle="tooltip" data-placement="top"
                                     title="Eliminar usuario">
                                     <i class="fa fa-trash"></i>
                                 </a>
                                 @endcan
                                 @can('usuario update')
-                                <a href="javascript:void(0)" class="btn btn-info"
+                                <a href="javascript:void(0)" class="btn btn-dark color-basic"
                                     wire:click="$emit('addPermission',{{ $user->id }},'user')" data-toggle="tooltip"
                                     data-placement="top" title="Editar permisos">
                                     <i class="fa fa-unlock-keyhole"></i>
@@ -197,7 +220,7 @@
     window.addEventListener('open-modal', event => {
         $('#UserModal').modal('show');
     });
-    
+
     window.addEventListener('close-modal-permission', event => {
         $('#PermissionModal').modal('hide');
     });

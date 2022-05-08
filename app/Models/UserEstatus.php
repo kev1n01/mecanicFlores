@@ -11,5 +11,5 @@ class UserEstatus extends Model
 
     protected $fillable = [
         'name',
-    ]; 
+    ];
 }

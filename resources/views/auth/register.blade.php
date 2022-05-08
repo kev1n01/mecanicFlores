@@ -39,7 +39,22 @@
 
                     <x-jet-input class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
-
+                <div class="mb-3">
+                    <x-jet-label value="{{ __('Ruc') }}" />
+                    <x-jet-input class="form-control" type="text" name="ruc" required />
+                </div>
+                <div class="mb-3">
+                    <x-jet-label value="{{ __('Dni') }}" />
+                    <x-jet-input class="form-control" type="text" name="dni" required />
+                </div>
+                <div class="mb-3">
+                    <x-jet-label value="{{ __('Celular') }}" />
+                    <x-jet-input class="form-control" type="text" name="phone" required />
+                </div>
+                <div class="mb-3">
+                    <x-jet-label value="{{ __('Dirección') }}" />
+                    <x-jet-input class="form-control" type="text" name="address" required />
+                </div>
                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                     <div class="mb-3">
                         <div class="custom-control custom-checkbox">

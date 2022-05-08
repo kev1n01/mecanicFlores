@@ -49,6 +49,8 @@ class ModalRole extends Component
     }
     
     public function toogleModal($model_id = null,$model= null){
+        $this->resetValidation();  
+        $this->resetErrorBag();  
         if($model_id && $model){
             $this->target = $model == 'Role' ? Role::find($model_id) : '';
             $this->role = $this->target->name;

@@ -1,5 +1,5 @@
-<label for="{{$name}}" class="form-label select-custom select 2">{{$label}}</label>
-<select class="form-control" wire:model="{{$name}}">
+<label for="{{$name}}" class="form-label select-custom ">{{$label}}</label>
+<select class="form-control" wire:model="{{$name}}" id="select2" >
     <option value="">{{$placeholder}}</option>
     @foreach($options as $key => $option)
     <option value="{{$key}}">{{$option}}</option>

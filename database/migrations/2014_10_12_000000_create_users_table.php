@@ -20,9 +20,16 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('user_status_id')->nullable();
+
+            $table->string('ruc',11)->nullable()->unique();
+            $table->string('dni',8)->nullable()->unique();
+            $table->string('phone',9)->nullable()->unique();
+            $table->string('address',70)->nullable()->unique();
+
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+
             $table->timestamps();
         });
     }

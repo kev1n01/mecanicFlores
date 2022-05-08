@@ -16,6 +16,9 @@
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('assets/build/js/custom.min.js') }}"></script>
 
+<!-- scrollbar Scripts -->
+<script src="{{ asset('assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('assets/build/js/customMecanic.min.js') }}"></script>
 
@@ -27,18 +30,18 @@
 
 <script>
     const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    color: 'white',
-    background: '#7085c0',
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-});
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        color: 'white',
+        background: '#506e8e',
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
 
 function ToastSuccessfulNotification(msg) {
     Toast.fire({
@@ -53,6 +56,25 @@ function ToastWarningNotification(msg) {
         title: msg,
     })
 }
+    function Confirm(id,event)
+    {
+        Swal.fire({
+            title: 'CONFIRMAR',
+            text: '¿CONFIRMAS ELIMINAR EL REGISTRO?',
+            icon: 'warning',
+            iconColor: '#1ABB9C',
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            cancelButtonColor: '#9d9c9c',
+            confirmButtonColor: '#383F5C',
+            confirmButtonText: 'Aceptar',
+        }).then((result) => {
+            if(result.value) {
+                window.livewire.emit(event, id)
+                Swal.close()
+            }
+        })
+    }
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -62,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.livewire.on('warning_alert', Msg => {
         ToastWarningNotification(Msg);
     });
+
 
 });
 

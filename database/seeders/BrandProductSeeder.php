@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BrandProduct;
 use Illuminate\Database\Seeder;
 
 class BrandProductSeeder extends Seeder
@@ -13,6 +14,7 @@ class BrandProductSeeder extends Seeder
      */
     public function run()
     {
-        //
+        BrandProduct::factory(10)->create();
+
     }
 }
