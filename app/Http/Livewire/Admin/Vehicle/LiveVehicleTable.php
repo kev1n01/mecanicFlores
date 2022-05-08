@@ -133,14 +133,6 @@ class LiveVehicleTable extends Component
         return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
     }
 
-    public function showModal(Vehicle $vehicle){
-        if($vehicle->customer_id){
-            $this->emit('showModalVehicle',$vehicle);
-        }else{
-            $this->emit('showModalNewVehicle');
-        }
-    }
-
     public function deleteVehicle(Vehicle $vehicle){
         can('usuario delete');
         $image_vehicle = ImageVehicle::where('vehicle_plate',$vehicle->license_plate)->get();
@@ -152,7 +144,7 @@ class LiveVehicleTable extends Component
                 Storage::disk('public')->delete('vehicle-photos/'.$img->image);
             }
         }
-        DB::table('vehicle_images')->where('vehicle_plate', $vehicle->license_plate)->delete();
+        DB::table('image_vehicles')->where('vehicle_plate', $vehicle->license_plate)->delete();
         $vehicle->delete();
         $this->emit('successful_alert','Vehiculo eliminado con exito');
     }

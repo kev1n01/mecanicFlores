@@ -147,18 +147,31 @@
                         <tbody>
                         @foreach ($vehicles as $ve)
                             <tr class="tr-custom">
-                                <th style="width: 10px;">
+                                <td style="width: 10px;">
                                     <div class="icheck-primary d-inline">
                                         <input wire:model="selectedRows" type="checkbox" value="{{ $ve->id }}"
                                                name="todo2" id="{{ $ve->id }}">
                                         <label for="{{ $ve->id }}"></label>
                                     </div>
-                                </th>
-<th></th>
-{{--                                <td>--}}
-{{--                                    <img src="{{ asset('storage/'.$ve->image_product) }}" width="60px" height="60px"--}}
-{{--                                         class="rounded-circle" alt="{{ $ve->id }}">--}}
-{{--                                </td>--}}
+                                </td>
+                                <td width="8%">
+
+                                    @php
+                                        $images = App\Models\ImageVehicle::where('vehicle_plate', $ve->license_plate)
+                                                ->limit(1)->get();
+                                    @endphp
+                                    @if($images)
+                                        @foreach ($images as $img)
+                                            <img src="{{asset('storage/vehicle-photos/'.$img->image)}}"
+                                                 width="60px" height="60px" class="rounded-circle "
+                                                 alt="{{$img->vehicle_plate}}">
+                                        @endforeach
+                                    @else
+                                            <img src="{{asset('storage/'.$ve->image_vehicle)}}"
+                                                 width="60px" height="60px" class="rounded-circle"
+                                                 alt="{{$ve->license_plate}}">
+                                    @endif
+                                </td>
                                 <td>{{ $ve->license_plate }}</td>
                                 <td>{{ $ve->model_year }}</td>
                                 <td>{{ $ve->type->type_vehicle }}</td>
@@ -169,7 +182,7 @@
                                 <td width="12%">
                                     @can('usuario update')
                                         <a href="javascript:void(0)" class="btn btn-dark color-basic"
-                                           wire:click="$emit('toogleModalProduct',{{ $ve->id }},'Product')" data-toggle="tooltip" data-placement="top"
+                                           wire:click="$emit('toogleModalVehicle',{{ $ve->id }},'Vehicle')" data-toggle="tooltip" data-placement="top"
                                            title="Editar producto">
                                             <i class="far fa-edit"></i>
                                         </a>
@@ -220,7 +233,7 @@
 </div>
 
 @push('modals')
-{{--    @livewire('admin.modal.vehicle.modal-vehicle')--}}
+    @livewire('admin.modal.vehicle.modal-vehicle')
 {{--    @livewire('admin.modal.vehicle.modal-brand-vehicle')--}}
 {{--    @livewire('admin.modal.vehicle.modal-type-vehicle')--}}
 @endpush
@@ -228,10 +241,10 @@
 @push('scripts')
     <script>
 
-        window.addEventListener('close-modal', event => {
+        window.addEventListener('close-modal-vehicle', event => {
             $('#VehicleModal').modal('hide');
         });
-        window.addEventListener('open-modal', event => {
+        window.addEventListener('open-modal-vehicle', event => {
             $('#VehicleModal').modal('show');
         });
         window.addEventListener('open-modal-brand', event => {

@@ -15,7 +15,7 @@ class BrandVehicleFactory extends Factory
     {
         return [
             'brand_vehicle' => $this->faker->randomElement(array('suzuki','toyota','nissan','kia','hyundai','honda','chevrolet')),
-            'type_brand_id' => rand(1,5),
+            'type_vehicle_id' => rand(1,5),
         ];
     }
 }

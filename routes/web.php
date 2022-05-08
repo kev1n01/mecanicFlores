@@ -15,7 +15,7 @@ Route::get('/report/products', [\App\Http\Livewire\Admin\Product\LiveProductTabl
 
 //Rutas con prefix user
 Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'user'], function () {
-    //    Ruta para redirigir al home del user
+    //Ruta para redirigir al home del user
     Route::get('/home', \App\Http\Livewire\User\HomeController::class)->name('user.home')
         ->middleware('can_view:cliente');
 
@@ -23,8 +23,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'user'], 
 
 //Rutas con prefix admin
 Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'admin'], function () {
-    //Rutas de perfil de usuario
-    Route::get('myprofile',function(){return view('profile.show');})->name('user.myprofile');
+    //Rutas de perfil de usuario admin
+    Route::get('myprofile',function(){return view('profile.show');})->name('admin.myprofile');
 
 //    Ruta para redirigir al home del admin
     Route::get('/home', \App\Http\Livewire\Admin\HomeController::class)->name('admin.home')
