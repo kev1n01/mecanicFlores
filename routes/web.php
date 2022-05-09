@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'user'], 
 //Rutas con prefix admin
 Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'admin'], function () {
     //Rutas de perfil de usuario admin
-    Route::get('myprofile',function(){return view('profile.show');})->name('admin.myprofile');
+    Route::get('myprofile',function(){return view('profile.show');})->name('user.myprofile');
 
 //    Ruta para redirigir al home del admin
     Route::get('/home', \App\Http\Livewire\Admin\HomeController::class)->name('admin.home')
