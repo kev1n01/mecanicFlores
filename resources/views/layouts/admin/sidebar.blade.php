@@ -1,9 +1,10 @@
 <div class="col-md-3 left_col menu_fixed">
     <div class="left_col scroll-view">
-        <div class="navbar nav_title " style="border: 0;">
-            <a href="{{ route('admin.home') }}" class="site_title" >
-                <img width="60%" height="60%" src="{{ asset('assets/build/images/logotaller.png') }}"
+        <div class="navbar nav_title " style="border: 0; ">
+            <a href="{{ route('admin.home') }}" class="site_title" style="font-size: 20px;">
+                <img width="60px" height="48px" src="{{ asset('assets/build/images/logomecanic.png') }}"
                     alt="Taller automotriz Flores">
+                TALLER <strong style="color: #1ABB9C;">FLORES</strong>
             </a>
         </div>
 
@@ -79,7 +80,7 @@
                     @if (canView('empleado'))
                         <li><a><i class="fa fa-wrench"></i> Servicios <span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                {{-- <li><a href="{{route('service.list')}}" class="nav-link {{(request()->is('service/list')) ? 'active' : '' }}">Lista de servicios</a></li> --}}
+                                 <li><a href="{{route('service.table')}}" class="nav-link {{(request()->is('service/list')) ? 'active' : '' }}">Lista de servicios</a></li>
                             </ul>
                         </li>
                     @endif

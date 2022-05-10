@@ -75,8 +75,6 @@ class Index extends Component
         }
         $users = $users->paginate($this->perPage);
 
-        // $users = User::role('cliente')->paginate(1);
-
         // ->simplePaginate()->devuelve anterior siguiente
         //retornar usuarios con tabla relacionado con with
         //$users=$users->with('nombre de funcion de relacion en el modelo User'(example:users_status))->paginate($this->perPage)

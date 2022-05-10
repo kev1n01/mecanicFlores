@@ -14,7 +14,7 @@ class HomeController extends Controller
         if (Auth::user()->roles()->first()->name === 'cliente'){
             return redirect()->route('user.home');
         }
-        if (Auth::user()->roles()->first()->name === 'administrador'){
+        if (Auth::user()->roles()->first()->name === 'administrador1'){
             return redirect()->route('admin.home');
         }
         if (Auth::user()->roles()->first()->name === 'vendedor'){

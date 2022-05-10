@@ -56,17 +56,17 @@ class ModalVehicle extends Component
     }
     public function clean(){
         $this->reset([
-            '$target',
-            '$vehicleImg',
-            '$customer_id',
-            '$type_id',
-            '$brand_id',
-            '$color_id',
-            '$license_plate',
-            '$model_year',
-            '$images',
-            '$imagesUpdate',
-            '$description',
+            'target',
+            'vehicleImg',
+            'customer_id',
+            'type_id',
+            'brand_id',
+            'color_id',
+            'license_plate',
+            'model_year',
+            'images',
+            'imagesUpdate',
+            'description',
         ]);
     }
     public function cerrarModal(){

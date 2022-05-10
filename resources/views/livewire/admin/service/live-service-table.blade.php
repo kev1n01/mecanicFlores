@@ -1,0 +1,210 @@
+<div>
+    <nav aria-label="breadcrumb breadcrumb-custom">
+        <ol class="breadcrumb breadcrumb-custom">
+            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Servicios</li>
+        </ol>
+    </nav>
+
+    <div class="card">
+
+        <div class="card-header">
+            <div class="col-md-1  col-sm-2 ">
+                <select wire:model="perPage" class="form-control">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4 col-sm-10 search">
+                <input type="text" wire:model="search" class="form-control "
+                       placeholder="Busqueda por datos en general ">
+            </div>
+
+            <button class="btn btn-dark color-basic" data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+                    type="button" wire:click="clear">
+                <i class="fas fa-eraser"></i><span> Limpiar</span>
+            </button>
+
+            @can('usuario create')
+                <div class="btn-group mb-1">
+                    <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Crear
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" wire:click="$emit('toogleModalService')"><i class="fas fa-plus"></i> Servicio</a>
+
+                    </div>
+                </div>
+            @endcan
+            <div class="btn-group mb-1">
+                <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                    <i class="fas fa-file-excel"></i>
+                    Exportar
+                    @if ($selectedRows)
+                        <span class="badge badge-default badge-color" >{{  count($selectedRows)  }}</span>
+                    @endif
+                </button>
+                <div class="dropdown-menu" >
+                    <a class="dropdown-item " href="#"><i class="fas fa-file-pdf"></i> PDF</a>
+                    <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
+                    <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                    <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th></th>
+
+                        <th>
+                            <input class="form-control" placeholder="Código trabajo" type="text" wire:model="cardSearch">
+                        </th>
+
+                        <th>
+                            <input class="form-control" placeholder="placa del vehiculo" type="text" wire:model="plateSearch">
+                        </th>
+
+                        <th>
+                            <input class="form-control" placeholder="fecha" type="date" wire:model="dateSearch">
+                        </th>
+
+                        <th>
+                            <select id="select2" class="form-control " wire:model="employer_id">
+                                <option value="">Seleciona empleado</option>
+                                @foreach ($employers as $em)
+                                    <option value="{{ $em->id }}">{{ $em->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
+
+                        <th class="text-center">
+                            <span>
+                                <i class="fas fa-filter"></i>
+                                Filtrar por
+                            </span>
+                        </th>
+                    </tr>
+
+                    <thead class="thead-basic">
+                    <tr>
+                        <th>
+                            <div class="icheck-primary" style="height: 15px">
+                                <input wire:model="selectPageRows" type="checkbox" value="1" name="todo2"
+                                       id="todoCheck2">
+                                <label for="todoCheck2"></label>
+                            </div>
+                        </th>
+
+                        <th wire:click="sortable('card_service')" class="th-pointer table-th text-center" scope="col">Código
+                            <span class=" th-span fas fa{{ $camp === 'card_service' ? $icon : '-sort' }} "></span>
+                        </th>
+
+                        <th class="table-th text-center" scope="col">Placa</th>
+                        <th class="table-th text-center" scope="col">Fecha</th>
+                        <th class="table-th text-center" scope="col">Empleado</th>
+                        <th class="table-th text-center" scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    @if ($services->count())
+                        <tbody>
+                        @foreach ($services as $se)
+                            <tr class="tr-custom">
+                                <th style="width: 10px;">
+                                    <div class="icheck-primary d-inline">
+                                        <input wire:model="selectedRows" type="checkbox" value="{{ $se->id }}"
+                                               name="todo2" id="{{ $se->id }}">
+                                        <label for="{{ $se->id }}"></label>
+                                    </div>
+                                </th>
+
+                                <td>{{ $se->card_service }}</td>
+                                <td>{{ $se->vehicle->license_plate }}</td>
+                                <td>{{ $se->created_at }}</td>
+                                <td>{{ $se->employer->name }}</td>
+
+                                <td width="12%">
+                                    @can('usuario update')
+                                        <a href="javascript:void(0)" class="btn btn-dark color-basic"
+                                           wire:click="$emit('toogleModalProduct',{{ $se->id }},'Product')" data-toggle="tooltip" data-placement="top"
+                                           title="Editar producto">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    @endcan
+
+                                    @can('usuario delete')
+                                        <a href="javascript:void(0)" class="btn btn-dark color-basic"
+                                           onclick="Confirm({{ $se->id }},'delservice')" data-toggle="tooltip" data-placement="top"
+                                           title="Eliminar producto">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    @endcan
+
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    @endif
+                </table>
+            </div>
+
+            {{ $services->links() }}
+
+{{--            @if (($codeSearch || $nameSearch || $stockSearch) && !$products->count())--}}
+{{--                <div>--}}
+{{--                    No hay resultados para la búsqueda "--}}
+{{--                    @if ($nameSearch)--}}
+{{--                        {{ $nameSearch }}--}}
+{{--                    @endif--}}
+{{--                    @if ($codeSearch)--}}
+{{--                        {{ $codeSearch }}--}}
+{{--                    @endif--}}
+{{--                    @if ($stockSearch)--}}
+{{--                        {{ $stockSearch }}--}}
+{{--                    @endif--}}
+{{--                    " en la página {{ $page }} al mostrar {{ $perPage }} registros--}}
+{{--                </div>--}}
+{{--            @endif--}}
+{{--            @if (!$services->count() && !$codeSearch && !$nameSearch && !$stockSearch)--}}
+{{--                <div>--}}
+{{--                    No hay usuarios registradas. Registre nuevos usuarios pulsando el boton "+"--}}
+{{--                </div>--}}
+{{--            @endif--}}
+        </div>
+    </div>
+</div>
+
+@push('modals')
+{{--    @livewire('admin.modal.service.category-service-product')--}}
+@endpush
+
+@push('scripts')
+    <script>
+
+        window.addEventListener('close-modal-category', event => {
+            $('#CategoryServiceModal').modal('hide');
+        });
+        window.addEventListener('open-modal-category', event => {
+            $('#CategoryServiceModal').modal('show');
+        });
+
+    </script>
+    <script>
+        {{--document.addEventListener('DOMContentLoaded',function (){--}}
+        {{--    $('#select2').select2()--}}
+        {{--    $('#select2').on('change',function (e){--}}
+        {{--        var pId = $('#select2').select2("val")--}}
+        {{--        @this.set('product_category_id',pId)--}}
+        {{--    });--}}
+        {{--});--}}
+    </script>
+@endpush

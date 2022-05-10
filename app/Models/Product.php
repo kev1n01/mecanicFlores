@@ -45,12 +45,11 @@ class Product extends Model
         }
 
         return $query->where('name','like',"%{$termino}%")
-            ->orWhere('code','like',"%{$termino}%")
-            ->orWhere('stock','like',"%{$termino}%")
-            ->orWhere('sale_price','like',"%{$termino}%")
-            ->orWhere('purchase_price','like',"%{$termino}%")
-            ->orWhere('unit','like',"%{$termino}%")
-            ->orWhere('id','like',"%{$termino}%");
+                    ->orWhere('code','like',"%{$termino}%")
+                    ->orWhere('stock','like',"%{$termino}%")
+                    ->orWhere('sale_price','like',"%{$termino}%")
+                    ->orWhere('purchase_price','like',"%{$termino}%")
+                    ->orWhere('unit','like',"%{$termino}%");
     }
 
     public function scopeStatus($query,$status){

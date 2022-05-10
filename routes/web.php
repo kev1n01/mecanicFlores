@@ -60,5 +60,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'admin'],
     Route::get('/vehicles',\App\Http\Livewire\Admin\Vehicle\LiveVehicleTable::class)->name('vehicles.table')
         ->middleware('can_view:empleado');
 
+    //Rutas para servicios
+    Route::get('/services',\App\Http\Livewire\Admin\Service\LiveServiceTable::class)->name('service.table')
+        ->middleware('can_view:empleado');
+
+
+
 
 });

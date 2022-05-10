@@ -142,9 +142,19 @@
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->user_status->name }}</td>
                             <td>
-                                <h6><span class="badge color-basic-2">{{ $user->roles()->first()->name ?? 'N/A' }}</span></h6>
+                                <h6>
+                                    <span class=" badge {{ $user->user_status_id == 1 ? 'color-basic-2 ' : 'color-red'}}">
+                                            {{ strtoupper( $user->user_status->name)}}
+                                    </span>
+                                </h6>
+                            </td>
+                            <td>
+                                <h6>
+                                    <span class="badge color-basic ">
+                                        {{ strtoupper($user->roles()->first()->name ?? 'N/A' )}}
+                                    </span>
+                                </h6>
                             </td>
                             <td width="17%">
                                 @can('usuario update')

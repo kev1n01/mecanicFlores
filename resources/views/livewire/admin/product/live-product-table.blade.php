@@ -124,7 +124,7 @@
                         </th>
 
                         <th class="table-th text-center" scope="col">Imagen</th>
-                        <th width="60px" wire:click="sortable('id')" class="th-pointer table-th text-center" scope="col">Código
+                        <th width="60px" wire:click="sortable('code')" class="th-pointer table-th text-center" scope="col">Código
                             <span class=" th-span fas fa{{ $camp === 'code' ? $icon : '-sort' }} "></span>
                         </th>
                         <th width="17%" wire:click="sortable('name')" class="th-pointer table-th text-center" scope="col">Nombre
@@ -162,9 +162,11 @@
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>
-                                    <span class=" badge {{ $product->product_status_id == 1 ? 'badge-success' : 'badge-danger'}}">
-                                        {{ strtoupper( $product->product_status->name)}}
-                                    </span>
+                                    <h6>
+                                        <span class=" badge {{ $product->product_status_id == 1 ? 'color-basic-2' : 'color-red'}}">
+                                            {{ strtoupper( $product->product_status->name)}}
+                                        </span>
+                                    </h6>
                                 </td>
                                 <td>{{ $product->category_product->name }}</td>
                                 <td>{{ $product->brand_product->name }}</td>

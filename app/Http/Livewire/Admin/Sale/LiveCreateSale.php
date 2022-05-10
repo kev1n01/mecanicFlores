@@ -12,7 +12,6 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
-use function Symfony\Component\Translation\t;
 
 class LiveCreateSale extends Component
 {

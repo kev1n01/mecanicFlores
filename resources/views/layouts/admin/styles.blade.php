@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-ui/jquery-ui.min.js')  }}">
 
 <!-- diseño de cards en modulo ventas -->
-{{--<link rel="stylesheet" href="{{ asset('assets/build/css/scrumboard.css')  }}">--}}
+<link rel="stylesheet" href="{{ asset('assets/build/css/scrumboard.css')  }}">
 {{--<link rel="stylesheet" href="{{ asset('assets/build/css/notes.css')  }}">--}}
 
 <!-- popper-->

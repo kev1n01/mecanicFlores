@@ -35,9 +35,15 @@
 /* Color basic  all*/
 .color-basic{
     background: #2A3F54;
+    color: #FFFFFF;
+
 }
 .color-basic-2{
     background: #1ABB9C;
+    color: #FFFFFF;
+}
+.color-red{
+    background: #c12e2a;
     color: #FFFFFF;
 }
 /* Color basic  all*/

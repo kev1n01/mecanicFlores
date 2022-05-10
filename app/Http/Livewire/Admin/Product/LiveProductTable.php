@@ -64,7 +64,19 @@ class LiveProductTable extends Component
 
     public function render()
     {
-        $products = Product::termino($this->search)
+        $products = Product::with(['category_product','brand_product'])
+            ->orWhereHas('category_product',function ($q){
+                $q->where('name','like',"%{$this->search}%");
+            })
+            ->orWhereHas('brand_product',function ($q){
+                $q->where('name','like',"%{$this->search}%");
+            })
+            ->orWhere('name','like',"%{$this->search}%")
+                ->orWhere('code','like',"%{$this->search}%")
+                ->orWhere('stock','like',"%{$this->search}%")
+                ->orWhere('sale_price','like',"%{$this->search}%")
+                ->orWhere('purchase_price','like',"%{$this->search}%")
+                ->orWhere('unit','like',"%{$this->search}%")
             ->name($this->nameSearch)
             ->stock($this->stockSearch)
             ->code($this->codeSearch);

@@ -12,7 +12,9 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <style>
 
+        </style>
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
