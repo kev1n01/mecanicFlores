@@ -43,13 +43,10 @@ class ModalProduct extends Component
     //variables de add marca
     public $active_brand_add = false;
     public $brand_name = '';
-    //variables de add status
-    public $active_status_add = false;
-    public $status_name = '';
     //variables de add category
     public $active_category_add = false;
     public $category_name = '';
-
+    protected $listeners = ['toogleModalProduct'];
     public function addBrand(){
         $brand = new BrandProduct();
         $brand->name = $this->brand_name;
@@ -65,20 +62,9 @@ class ModalProduct extends Component
     {
         $this->active_brand_add = true;
     }
-    public function addStatus(){
-        $status = new ProductEstatus();
-        $status->name = $this->status_name;
-        $status->save();
-        $this->active_status_add = false;
-        $this->status_name = '';
-        $this->hydrate();
-        $this->emit('filterUpdate');
-        $this->emit('successful_alert', 'Un nuevo estado fue creado correctamente');
-
-    }
-    public function activeAddStatus()
-    {
-        $this->active_status_add = true;
+    public function cancelAddBrand(){
+        $this->active_brand_add = false;
+        $this->brand_name = '';
     }
     public function addCategory(){
         $category = new CategoryProduct();
@@ -95,28 +81,16 @@ class ModalProduct extends Component
     {
         $this->active_category_add = true;
     }
-
-    protected $listeners = ['toogleModalProduct'];
-
+    public function cancelAddCategory(){
+        $this->active_category_add = false;
+        $this->category_name = '';
+    }
     public function submit(){
         if($this->method == 'updateTarget'){
             $this->updateTarget();
         }else{
             $this->createTarget();
         }
-    }
-
-    public function cancelAddBrand(){
-        $this->active_brand_add = false;
-        $this->brand_name = '';
-    }
-    public function cancelAddStatus(){
-        $this->active_status_add = false;
-        $this->status_name = '';
-    }
-    public function cancelAddCategory(){
-        $this->active_category_add= false;
-        $this->category_name = '';
     }
     public function clean(){
         $this->name = '';
@@ -144,7 +118,6 @@ class ModalProduct extends Component
 
         $this->dispatchBrowserEvent('close-modal');
     }
-
     public function hydrate(){
         $this->categories = CategoryProduct::get();
         $this->brands = BrandProduct::pluck('name','id');
@@ -154,7 +127,6 @@ class ModalProduct extends Component
     {
         return view('livewire.admin.modal.product.modal-product');
     }
-
     public function toogleModalProduct($model_id = null,$model= null){
         $this->clean();
         $this->resetValidation();
@@ -175,18 +147,20 @@ class ModalProduct extends Component
             $this->action = 'Actualizar';
             $this->method = 'updateTarget';
         }else{
+            $this->stock = 0;
             $this->action = 'Registrar';
             $this->method = 'createTarget';
         }
 
         $this->dispatchBrowserEvent('open-modal');
     }
-
     public function updateTarget(){
         $request = new UpdateProductRequest();
         $values = $this->validate($request->rules($this->target), $request->messages());
 
+        if($values['image_product']){
         $this->removeImage($this->target->image);
+        }
 
         if ($values['image_product']){
             $image = ['image' => $this->loadImage($values['image_product'])];
@@ -198,7 +172,6 @@ class ModalProduct extends Component
         $this->cerrarModal();
         $this->emit('successful_alert','Producto actualizado correctamente');
     }
-
     public function createTarget(){
         $request = new UpdateProductRequest();
         $values = $this->validate($request->rules($this->target), $request->messages());
@@ -215,19 +188,16 @@ class ModalProduct extends Component
         $this->cerrarModal();
         $this->emit('successful_alert','Producto creado correctamente');
     }
-
     public function updated($label){
         $request = new UpdateProductRequest();
         $this->validateOnly($label, $request->rules($this->target), $request->messages());
     }
-
     public function loadImage(TemporaryUploadedFile $image){
         $extension = $image->getClientOriginalExtension();
 
         $location = Storage::disk('public')->put('products-photos',$image);
         return $location;
     }
-
     public function removeImage($image){
         if(!$image){
             return ;

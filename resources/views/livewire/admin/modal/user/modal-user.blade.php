@@ -3,7 +3,7 @@
         <x-component-modal :idModal="$idModal" :action="$action" :nameComponent="$nameComponent"
             :classModalDialog="$classModalDialog" :classSize="$classSize">
             <div class="row g-3">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <x-component-input name="name" label="" placeholder="Ingresar nombre" type="text">
                     </x-component-input>
                 </div>
@@ -12,7 +12,6 @@
                     </x-component-input>
                 </div>
                 <div class="col-md-6">
-
                     <x-component-select
                         :options="$roles"
                         name="role"
@@ -20,7 +19,14 @@
                         label="">
                     </x-component-select>
                 </div>
-
+                <div class="col-md-6">
+                    <x-component-select
+                        :options="$status"
+                        name="user_status_id"
+                        placeholder="Seleccione un estado"
+                        label="">
+                    </x-component-select>
+                </div>
                 @if($action == 'Registrar')
                 <div class="col-md-6">
                     <x-component-input name="password" label="" placeholder="Ingresar su contraseña" type="password">
@@ -32,16 +38,6 @@
                     </x-component-input>
                 </div>
                 @endif
-
-                <div class="col-md-6">
-                    <x-component-select
-                        :options="$status"
-                        name="user_status_id"
-                        placeholder="Seleccione un estado"
-                        label="">
-                    </x-component-select>
-                </div>
-
                 <div class="col-md-6">
                     <x-component-input-file name="profile_photo_path" label="Elegir imagen de usuario">
                     </x-component-input-file>
@@ -69,10 +65,7 @@
                         @endif
                     </div>
                 </div>
-
-
             </div>
-
         </x-component-modal>
     </form>
 </div>

@@ -7,7 +7,7 @@
                 <div class="col-md-8">
                     <label for="customer_id" class="col-form-label"></label>
 
-                    <select wire:model="customer_id" class="form-control select-custom select2" >
+                    <select wire:model="customer_id" class="form-control custom-select" >
                         <option value="">Seleccione cliente</option>
                         @foreach($customers as $customer)
                             <option value="{{$customer->id}}">{{$customer->name}}</option>
@@ -25,7 +25,7 @@
                 <div class="col-md-6">
                     <label for="type_id" class="col-form-label"></label>
 
-                    <select wire:model="type_id" class="form-control select-custom" @if(!$customer_id)disabled="disabled"@else @endif>
+                    <select wire:model="type_id" class="form-control custom-select" @if(!$customer_id)disabled="disabled"@else @endif>
                         <option value="">Seleccione tipo de vehiculo</option>
                         @foreach($types as $id => $type)
                             <option value="{{$id}}">{{$type}}</option>
@@ -39,7 +39,7 @@
                 <div class="col-md-6">
                     <label for="brand_id" class="col-form-label"></label>
 
-                    <select wire:model="brand_id" class="form-control select-custom " @if(!$customer_id || !$type_id)disabled="disabled"@else @endif >
+                    <select wire:model="brand_id" class="form-control custom-select" @if(!$customer_id || !$type_id)disabled="disabled"@else @endif >
                         <option value="">Seleccione marca de vehiculo</option>
                         @foreach($brands as $brand)
                             <option value="{{$brand->id}}">{{$brand->brand_vehicle}}</option>
@@ -53,7 +53,7 @@
                 <div class="col-md-6">
                     <label for="color_id" class="col-form-label"></label>
 
-                    <select wire:model="color_id" class="form-control select-custom" @if(!$customer_id || !$type_id)disabled="disabled"@else @endif >
+                    <select wire:model="color_id" class="form-control custom-select" @if(!$customer_id || !$type_id)disabled="disabled"@else @endif >
                         <option value="">Seleccione color de vehiculo</option>
                         @foreach($colors as $id => $color)
                             <option value="{{$id}}">{{$color}}</option>

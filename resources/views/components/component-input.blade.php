@@ -5,6 +5,6 @@
         @if ($errors->has($name)) is-invalid @endif" placeholder="{{$placeholder}}">
     </div>
     @if ($errors->has($name))
-    <small style="color:red;" class="form-text">{{$errors->first($name)}}</small>
+    <small style="color:#dc3545;">{{$errors->first($name)}}</small>
     @endif
 </div>

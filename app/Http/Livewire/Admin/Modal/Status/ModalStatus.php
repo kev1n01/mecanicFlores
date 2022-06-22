@@ -21,7 +21,7 @@ class ModalStatus extends Component
     public $active_status_add = false;
     public $active_status_update = false;
 
-    protected $listeners = ['toogleModalStatus'];
+    protected $listeners = ['toogleModalStatus','delstatusproduct' => 'deleteStatus'];
 
     public function render()
     {

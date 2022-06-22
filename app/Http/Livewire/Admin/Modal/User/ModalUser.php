@@ -100,7 +100,9 @@ class ModalUser extends Component
         $request = new RequestUpdateUse();
         $values = $this->validate($request->rules($this->user), $request->messages());
 
-        $this->removeImage($this->user->profile_photo_path);
+        if($values['profile_photo_path']){
+            $this->removeImage($this->user->profile_photo_path);
+        }
 
         if ($values['profile_photo_path']){
             $profile = ['profile_photo_path' => $this->loadImage($values['profile_photo_path'])];

@@ -20,8 +20,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
     protected $table = 'users';
-
-
     protected $fillable = [
         'name',
         'email',
@@ -33,34 +31,28 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'address',
     ];
-
-
     protected $hidden = [
         'password',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
-
-
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
     protected $appends = [
         'profile_photo_url',
     ];
-
     public function user_status()
     {
         return $this->belongsTo(UserEstatus::class);
     }
-
     public function getImageUserAttribute(){
         return $this->profile_photo_path ?? $this->profile_photo_url;
     }
-
+    public function getStatusNameAttribute(){
+        return $this->user_status->name == 'active' ? 'activo' : 'inactivo';
+    }
     public function scopeTermino($query,$termino){
         if($termino === ''){
             return;
@@ -70,7 +62,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ->orWhere('email','like',"%{$termino}%")
         ->orWhere('id','like',"%{$termino}%");
     }
-
     public function scopeStatus($query,$status){
         if($status === ''){
             return;

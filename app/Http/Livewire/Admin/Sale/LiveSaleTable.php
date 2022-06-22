@@ -14,6 +14,7 @@ class LiveSaleTable extends Component
 
     // Variables de busqueda
     public $search = '';
+    public $dateSearch = '';
 
     // Variables de paginado y orden
     public $perPage = 5;
@@ -53,9 +54,9 @@ class LiveSaleTable extends Component
 //        if ($this->sale_status_id) {
 //            $sales = $sales->status($this->purchase_status_id);
 //        }
-//        if ($this->user_id) {
-//            $sales = $sales->use($this->user_id);
-//        }
+        if ($this->dateSearch) {
+            $sales = $sales->date($this->dateSearch);
+        }
 //        if ($this->provider_id) {
 //            $sales = $sales->provide($this->provider_id);
 //        }

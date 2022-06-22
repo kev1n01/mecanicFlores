@@ -35,7 +35,6 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('purchases_create.table') }}"><i class="fas fa-plus"></i> Compra</a>
-                        <a class="dropdown-item" wire:click="$emit('toogleModalPurchase')"><i class="fas fa-plus"></i> CompraModal </a>
                     </div>
                 </div>
             @endcan
@@ -65,7 +64,7 @@
                         </th>
 
                         <th>
-                            <input class="form-control" placeholder="fecha" type="date" wire:model="dateSearch" >
+                            <input class="form-control date" placeholder="fecha" type="text" wire:model="dateSearch" >
                         </th>
 
                         <th>
@@ -123,8 +122,8 @@
                             <span class=" th-span fas fa{{ $camp === 'date_purchase' ? $icon : '-sort' }}"></span>
                         </th>
 
-                        <th wire:click="sortable('observation')" class="th-pointer table-th text-center" scope="col">Observación
-                            <span class=" th-span fas fa{{ $camp === 'observation' ? $icon : '-sort' }}"></span>
+                        <th wire:click="sortable('total')" class="th-pointer table-th text-center" scope="col">Total
+                            <span class=" th-span fas fa{{ $camp === 'total' ? $icon : '-sort' }}"></span>
                         </th>
 
                         <th class="table-th text-center" scope="col">Proveedor</th>
@@ -150,11 +149,15 @@
 
                                 <td>{{ $purchase->code_purchase }}</td>
                                 <td>{{ $purchase->date_purchase }}</td>
-                                <td>{{ $purchase->observation }}</td>
+                                <td>S/. {{ $purchase->total }}</td>
                                 <td>{{ $purchase->provider->name }}</td>
                                 <td>{{ $purchase->user->name }}</td>
                                 <td>
-                                    {{ $purchase->purchase_status->name ?? 'None'}}
+                                    <h6>
+                                    <span class=" badge {{$purchase->status_color}}">
+                                            {{ strtoupper( $purchase->purchase_status->name)}}
+                                    </span>
+                                    </h6>
                                 </td>
 
                                 <td width="12%">
@@ -210,8 +213,6 @@
 </div>
 
 @push('modals')
-        @livewire('admin.modal.purchase.modal-purchase')
-    {{--    @livewire('admin.modal.status.modal-status-provider')--}}
 @endpush
 
 @push('styles')
@@ -221,19 +222,6 @@
 @push('scripts')
 
     <script>
-
-        window.addEventListener('close-modal', event => {
-            $('#PurchaseModal').modal('hide');
-        });
-        window.addEventListener('open-modal', event => {
-            $('#PurchaseModal').modal('show');
-        });
-        window.addEventListener('open-modal-status', event => {
-            $('#StatusModalPurchase').modal('show');
-        });
-        window.addEventListener('close-modal-status', event => {
-            $('#StatusModalPurchase').modal('hide');
-        });
 
     </script>
 

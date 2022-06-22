@@ -26,6 +26,7 @@ class Sale extends Model
     public function customer(){
         return $this->belongsTo(User::class);
     }
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -43,4 +44,12 @@ class Sale extends Model
             ->orWhere('status','like',"%{$termino}%")
             ->orWhere('id','like',"%{$termino}%");
     }
+    public function scopeDate($query,$date){
+        if($date === '' ){
+            return ;
+        }
+
+        return $query->where('created_at','like',"%{$date}%");
+    }
+
 }

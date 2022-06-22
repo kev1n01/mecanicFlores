@@ -12,9 +12,11 @@ class CategoryProduct extends Model
     protected $fillable = [
         'name',
     ];
+
     public function products(){
         return $this->hasMany(Product::class);
     }
+
     public function scopeTermino($query,$termino){
         if($termino === ''){
             return;

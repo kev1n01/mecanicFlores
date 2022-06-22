@@ -36,7 +36,7 @@
                         Crear
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" wire:click="$emit('toogleModalService')"><i class="fas fa-plus"></i> Servicio</a>
+                        <a class="dropdown-item" href="{{route('service.create')}}"><i class="fas fa-plus"></i> Servicio</a>
 
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                         </th>
 
                         <th>
-                            <input class="form-control" placeholder="fecha" type="date" wire:model="dateSearch">
+                            <input class="form-control date" placeholder="fecha" type="text" wire:model="dateSearch">
                         </th>
 
                         <th>
@@ -84,7 +84,14 @@
                                 @endforeach
                             </select>
                         </th>
-
+                        <th>
+                            <select id="select2" class="form-control " wire:model="customer_id">
+                                <option value="">Seleciona cliente</option>
+                                @foreach ($customers as $cu)
+                                    <option value="{{ $cu->id }}">{{ $cu->name }}</option>
+                                @endforeach
+                            </select>
+                        </th>
                         <th class="text-center">
                             <span>
                                 <i class="fas fa-filter"></i>
@@ -110,6 +117,7 @@
                         <th class="table-th text-center" scope="col">Placa</th>
                         <th class="table-th text-center" scope="col">Fecha</th>
                         <th class="table-th text-center" scope="col">Empleado</th>
+                        <th class="table-th text-center" scope="col">Cliente</th>
                         <th class="table-th text-center" scope="col">Acciones</th>
                     </tr>
                     </thead>
@@ -127,8 +135,9 @@
 
                                 <td>{{ $se->card_service }}</td>
                                 <td>{{ $se->vehicle->license_plate }}</td>
-                                <td>{{ $se->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($se->created_at)->format('Y-m-d') }}</td>
                                 <td>{{ $se->employer->name }}</td>
+                                <td>{{ $se->vehicle->customer->name }}</td>
 
                                 <td width="12%">
                                     @can('usuario update')

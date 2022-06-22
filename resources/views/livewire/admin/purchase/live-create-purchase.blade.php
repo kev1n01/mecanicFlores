@@ -1,210 +1,190 @@
 <div>
-    <section class="content mt-3">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <div class="row">
-                        <div class="col-md-7">
+    <div class="row layout-top-spacing">
+        <div class="col-sm-12 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                <h6 class="pb-1 mb-0"> <strong>Información del proveedor</strong></h6>
+                <div class="form-row mb-2">
+                    <div class="col">
+                        <select wire:model="provider_id" class="form-control " >
+                            <option value="">------Seleccione-------</option>
+                            @foreach($providers as $p)
+                                <option  value="{{$p->id}}">{{ $p->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Ruc" disabled wire:model="ruc_provider">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Celular" disabled wire:model="phone_provider">
+                    </div>
+                </div>
+                <h6 class="pb-1 mb-0"> <strong>Información de la compra</strong></h6>
+                <div class="form-row mb-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Código" disabled wire:model="code_purchase">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control date" placeholder="Fecha" wire:model="date_purchase"
+                               @if(!$provider_id) disabled @endif >
+                    </div>
+                    <div class="col">
+                        <select wire:model="status_id" class="form-control" @if(!$provider_id) disabled @endif >
+                            <option value="">------Seleccione estado-------</option>
+                            @foreach($status as $key => $s)
+                                <option  value="{{$key}}">{{ $s }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                {{-- input autocomplete --}}
+                    <h6 class="pb-1 mb-0"> <strong>Búsqueda de productos</strong></h6>
+                <div class="input-group mb-3">
+                    <input type="text" wire:model="search" class="form-control"
+                           placeholder="Buscar...">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="button" wire:click="resetSearch()" >
+                            <i class="fas fa-sync-alt"></i >
+                        </button>
+                    </div>
+                </div>
+                    <h6 class="pb-1 mb-0"> <strong>Productos para compra</strong></h6>
+                <div class="table-responsive tblscroll">
+                    <table class="table  table-striped mt-1">
+                        <thead class="text-white" style="background-color: #2A3F54; ">
+                        <tr>
+                            <th>Código</th>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Accion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                            <div class="input-group mb-3">
-                                <input type="text" wire:model="search" class="form-control"
-                                       placeholder="Buscar productos">
-
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button" wire:click="resetSearch()">
-                                        <i class="fas fa-sync-alt"></i>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td scope="row">{{$product->code}}</td>
+                                <td>
+                                    <img src="{{asset('storage/'.$product->image_product)}}"
+                                         class="img-fluid" width="35" alt="{{$product->name}}">
+                                </td>
+                                <td>{{$product->name}}</td>
+                                <td>
+                                    <button type="button"  wire:click="addToCart({{$product->code}})" class="btn btn-dark">
+                                        <i class="fas fa-plus"></i>
                                     </button>
-                                </div>
-                            </div>
+                                </td>
+                            </tr>
+                        @endforeach
 
-
-
-                            <div id="table-products" class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
+                        </tbody>
+                    </table>
+                </div>
+                {{ $products->links() }}
+                {{--DETALLES--}}
+                <hr>
+                <h6 class="pb-1 mb-0"> <strong>Productos agregados para compra</strong></h6>
+                    @if($total > 0)
+                        <div class="table-responsive tblscroll">
+                            <table class="table table-striped mt-1">
+                                <thead class="text-white" style="background-color: #2A3F54 ;">
+                                <tr>
+                                    <th width="10%"></th>
+                                    <th class="table-th">Descripción</th>
+                                    <th class="table-th text-center">Precio</th>
+                                    <th width="13%" class="table-th text-center">Cantidad</th>
+                                    <th class="table-th text-center">Importe</th>
+                                    <th class="table-th text-center">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($cart as $item)
                                     <tr>
-                                        <th>Código</th>
-                                        <th>Imagen</th>
-                                        <th>Producto</th>
-                                        <th>Unidad</th>
-                                        <th>Costo Por Unidad</th>
-                                        <th>Action</th>
+                                        <td class="text-center table-th">
+                                            @if(count($item->attributes) > 0)
+                                                <img src="{{asset('storage/'.$item->attributes[0])}}" alt="{{$item->name}}" height="60"
+                                                     width="60" class="rounded">
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td class="text-center">S/{{ number_format($item->price ,2)}}</td>
+                                        <td>
+                                            <input type="number" id="r{{$item->id}}"
+                                                   wire:change="updateQuantity({{ $item->id }}, $('#r' + {{ $item->id }}).val())"
+                                                   style="font-size: 1rem !important;" class="form-control text-center" value="{{$item->quantity}}">
+                                        </td>
+                                        <td class="text-center"><p>S/ {{number_format($item->price * $item->quantity,2)}}</p></td>
+                                        <td class="text-center">
+                                            <button wire:click.prevent="removeItem({{ $item->id }})" class="btn btn-dark mbmobile">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <button wire:click.prevent="decreaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button wire:click.prevent="increaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    @foreach ($products as $product)
-                                        <tr>
-                                            <td scope="row">{{$product->id}}</td>
-                                            <td>
-                                                <img src="{{asset('storage/'.$product->image_product)}}"
-                                                     class="img-fluid" width="35" alt="{{$product->name}}">
-                                            </td>
-                                            <td>{{$product->name}}</td>
-                                            <td>{{$product->unit}}</td>
-                                            <td>{{$product->purchase_price}}</td>
-                                            <td>
-                                                <button type="button"  wire:click="addToCart({{$product->id}})" class="btn btn-info">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
+                                @endforeach
+                                </tbody>
+                            </table>
 
                         </div>
+                    @else
+                        <div style="background-color: rgba(230,230,230,0.8); height: 50px;">
+                            <h6 class="text-center mt-0 pt-3">Agrega productos para actualizar stock</h6>
+                        </div>
+                    @endif
 
-                        <div class="col-md-5">
-
-                            <button type="button" wire:click="clearCart" class="btn btn-warning btn-block"><i class="fas fa-sync-alt"></i>
-                                Limpiar productos</button>
-
-                            <div id="table-cart" class="table-responsive mt-2">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Foto</th>
-                                        <th scope="col">Producto</th>
-                                        <th scope="col">Cant.</th>
-                                        <th scope="col">Precio</th>
-                                        <th scope="col">Acción</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    @foreach ($cart_content as $content)
-                                        <tr>
-                                            <th scope="row">{{$content->id}}</th>
-
-                                            <td>
-                                                <img src="{{asset('storage/'.$content->attributes[0])}}"
-                                                     class="img-fluid" width="35" alt="product">
-                                            </td>
-                                            <td>{{$content->name}}</td>
-
-                                            <td class="text-center">
-                                                <div class="m-btn-group m-btn-group--pill btn-group mr-2"
-                                                     role="group" aria-label="...">
-
-                                                    <button type="button"
-                                                            wire:click="quantityMinus({{$content->id}})"
-                                                            class="m-btn btn btn-default">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-
-                                                    <button type="button" class="m-btn btn btn-default" disabled>
-                                                        {{$content->quantity}}
-                                                    </button>
-
-                                                    <button type="button"
-                                                            wire:click="quantityPlus({{$content->id}})"
-                                                            class="m-btn btn btn-default">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-
-                                                </div>
-                                            </td>
-
-
-                                            <td>S/{{$content->price}}</td>
-
-                                            <td>
-
-                                                <button type="button" wire:click="removeItem({{$content->id}})"
-                                                        class="btn btn-danger">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
+                    <div wire:loading.inline wire:target="savePurchase">
+                        <h4 class="text-primary text-center">Guardando Compra..</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            {{--TOTAL--}}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card ">
+                        <div class="card-body">
+                            <div class=" text-center">
+                                <div class="input-group input-group-md mb-3">
+                                    <div class="input-group-prepend">
+                                        <span style="background: #2A3F54; color: white; height: 101%; font-size: .8rem;"
+                                              class=" input-group-text input-gp ">Comprador
+                                        </span>
+                                    </div>
+                                    <input type="text" disabled class="form-control text-center" value="{{ Auth::user()->name }}">
+                                </div>
+                                <div>
+                                    <h2>TOTAL: S/{{ number_format($total,2) }}</h2>
+                                    <input type="hidden" id="hiddenTotal" value="{{$total}}">
+                                </div>
+                                <div>
+                                    <h2 class="mt-3">Articulos: {{$itemsQuantity}}</h2>
+                                </div>
                             </div>
-
-                            <div class="form-group mt-2">
-                                <label class="font-weight-bold h5 float-right">Total: S/{{ number_format(($total),2)}}</label>
-                            </div>
-
-                            <div class="form-group mt-4">
-                                <label for="">Proveedores</label>
-                                <select wire:model="provider" class="form-control @error('provider') is-invalid @enderror" name="" id="">
-                                    <option value="select">Selecciona un proveedor</option>
-                                    @foreach ($providers as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('provider')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group mt-4">
-                                <label for="">Estado de compra</label>
-                                <select wire:model="status_id" class="form-control @error('status_id') is-invalid @enderror" name="" id="">
-                                    <option value="select">Selecciona un proveedor</option>
-                                    @foreach ($status as $key => $statu)
-                                        <option value="{{$key}}">{{$statu}}</option>
-                                    @endforeach
-                                </select>
-                                @error('status_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="">Codigo de factura</label>
-                                <input type="text" wire:model.lazy="invoice_code"  disabled class="form-control @error('invoice_code') is-invalid @enderror" >
-                                @error('invoice_code')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="">Fecha de compra </label>
-
-                                <input type="date" wire:model.lazy="date_purchase"  value=""  class="form-control @error('date_purchase') is-invalid @enderror">
-                                @error('date_purchase')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-{{--                            <div class="col-md-6">--}}
-{{--                                <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">--}}
-{{--                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>--}}
-{{--                                    <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
                             <div class="form-group">
                                 <label for="">Observaciones</label>
-                                <textarea  wire:model.lazy="observation" name="" id="" class="form-control @error('observation') is-invalid @enderror">
+                                <textarea  wire:model.lazy="observation" class="form-control">
                                 </textarea>
-                                @error('observation')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button wire:click="savePurchase()" class="btn btn-primary btn-lg btn-block" type="button">
-                                        <i class="fas fa-share"></i> Guardar
-                                    </button>
+                            <div class="row justify-content-between mt-3">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    @if($total > 0)
+                                        <button onclick="ConfirmCancelPurchase('clearCart','¿Seguro de eliminar el carrito?')"
+                                                class="btn btn-dark  btn-sm">
+                                            CANCELAR (F4)
+                                        </button>
+                                    @endif
                                 </div>
-                                <div class="col-md-6">
-                                    <button wire:click="cancelPurchase()" class="btn btn-secondary btn-lg btn-block" type="button">
-                                        <i class="far fa-times-circle"></i> Cancelar
-                                    </button>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <button wire:click.prevent="savePurchase"
+                                            class="btn btn-dark btn-md btn-block btn-sm">GUARDAR (F9)</button>
                                 </div>
                             </div>
                         </div>
@@ -212,28 +192,45 @@
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
 </div>
-
-@push('styles')
-
-    <style type="text/css">
-        #table-products {
-            height: 637px;
-        }
-        #table-cart {
-            height: 400px;
-        }
-    </style>
-@endpush
 @push('scripts')
 
-        <script>
-            $(document).ready(function() {
-                $('#select2').select2({
-                    placeholder: 'Seleccion una opcion'
-                });
+    <script>
+        $(document).ready(function(){
+            $('.select2').select2({
+                placeholder: 'Selecciona un proveedor'
+            });
+
+        });
+        function ConfirmCancelPurchase(event,text)
+        {
+            Swal.fire({
+                title: 'CONFIRMAR',
+                text: text,
+                icon: 'warning',
+                iconColor: '#1ABB9C',
+                showCancelButton: true,
+                cancelButtonText: 'Cerrar',
+                cancelButtonColor: '#9d9c9c',
+                confirmButtonColor: '#383F5C',
+                confirmButtonText: 'Aceptar',
+            }).then((result) => {
+                if(result.value) {
+                    window.livewire.emit(event)
+                    Swal.close()
+                }
             })
-        </script>
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            livewire.on('scan-code',action => {
+                $('#barcode').val('')
+            })
+            window.livewire.on('print_ticket', saleId => {
+                window.open("print://" + saleId, '_blank')
+            })
+        });
+
+    </script>
 @endpush

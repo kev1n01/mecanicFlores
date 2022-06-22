@@ -17,27 +17,17 @@ class Service extends Model
 
     public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,);
     }
     public function employer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     public function vehicle()
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicle::class,'vehicle_id');
     }
 
-    public function scopeTermino($query,$termino){
-        if($termino === ''){
-            return;
-        }
-
-        return $query->where('card_service','like',"%{$termino}%")
-            ->orWhere('category_id','like',"%{$termino}%")
-            ->orWhere('user_id','like',"%{$termino}%")
-            ->orWhere('vehicle_id','like',"%{$termino}%");
-    }
 
     public function scopeEmple($query,$employer)
     {
@@ -72,7 +62,7 @@ class Service extends Model
             return ;
         }
 
-        return $query->where('created_at','=',$date);
+        return $query->where('created_at','like',"%{$date}%");
     }
 
 }

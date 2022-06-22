@@ -4,8 +4,8 @@
                 <h6 class="pb-1 mb-0"> <strong>Selección del cliente</strong></h6>
             <div class="form-row mb-2">
                 <div class="col">
-                    <select wire:model="customer_id" id="select2" class="form-control ">
-                        <option value="">-----Seleccionar cliente----</option>
+                    <select wire:model="customer_id" class="form-control " >
+                        <option value="">------ Seleccione ------</option>
                         @foreach($customers as $c)
                             <option value="{{$c->id}}">{{ $c->name }}</option>
                         @endforeach
@@ -15,15 +15,15 @@
                     <input type="text" class="form-control" placeholder="Dni o Ruc" disabled wire:model="identidad_customer">
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Celular" disabled wire:model="phone_customer">
+                    <input type="text" class="form-control" placeholder="Celular"  disabled wire:model="phone_customer">
                 </div>
             </div>
             <hr>
             <h6 class="pb-1 mb-0"> <strong>Búsqueda del producto</strong></h6>
             <div class="form-row mb-2">
                 <div class="col">
-                    <input type="text" id="barcode" wire:keydown.enter.prevent="$emit('scan-code',$('#barcode').val())" class="form-control"
-                           placeholder="Ingresar código" autofocus>
+                    <input type="text" id="barcode" wire:keydown.enter.prevent="$emit('scan-code',$('#barcode').val())"
+                           class="form-control" placeholder="Ingresar código" autofocus>
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" placeholder="Categoria" disabled wire:model="product_category">
@@ -191,7 +191,12 @@
 @push('scripts')
 
     <script>
+        $(document).ready(function(){
+            $('.select2').select2({
+                placeholder: 'Selecciona un cliente'
+            });
 
+        });
         function ConfirmCancelSale(event,text)
         {
             Swal.fire({

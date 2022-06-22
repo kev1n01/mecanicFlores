@@ -39,7 +39,6 @@
                         <a class="dropdown-item" wire:click="$emit('toogleModalProduct')"><i class="fas fa-plus"></i> Producto</a>
                         <a class="dropdown-item" wire:click="$emit('toogleModalBrand')"><i class="fas fa-plus"></i> Marca</a>
                         <a class="dropdown-item" wire:click="$emit('toogleModalCategory')"><i class="fas fa-plus"></i> Categoria</a>
-                        <a class="dropdown-item" wire:click="$emit('toogleModalStatus')"><i class="fas fa-plus"></i> Estado</a>
                     </div>
                 </div>
             @endcan
@@ -145,7 +144,8 @@
                     @if ($products->count())
                         <tbody>
                         @foreach ($products as $product)
-                            <tr class="tr-custom">
+                            <tr class="tr-custom  "
+                                >
                                 <th style="width: 10px;">
                                     <div class="icheck-primary d-inline">
                                         <input wire:model="selectedRows" type="checkbox" value="{{ $product->id }}"
@@ -160,11 +160,11 @@
                                 </td>
                                 <td>{{ $product->code }}</td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->stock }}</td>
+                                <td class="th-pointer {{$product->stock <= 18 ? 'table-danger' : 'table-success'}}" wire:click="addProductToPurchase({{$product->id}})" >{{ $product->stock }}</td>
                                 <td>
                                     <h6>
                                         <span class=" badge {{ $product->product_status_id == 1 ? 'color-basic-2' : 'color-red'}}">
-                                            {{ strtoupper( $product->product_status->name)}}
+                                            {{ strtoupper( $product->status_name)}}
                                         </span>
                                     </h6>
                                 </td>
@@ -228,7 +228,6 @@
     @livewire('admin.modal.product.modal-product')
     @livewire('admin.modal.brand.modal-brand')
     @livewire('admin.modal.category.modal-category')
-    @livewire('admin.modal.status.modal-status')
 @endpush
 
 @push('scripts')
@@ -251,12 +250,6 @@
         });
         window.addEventListener('close-modal-category', event => {
             $('#CategoryModal').modal('hide');
-        });
-        window.addEventListener('open-modal-status', event => {
-            $('#StatusModal').modal('show');
-        });
-        window.addEventListener('close-modal-status', event => {
-            $('#StatusModal').modal('hide');
         });
 
     </script>

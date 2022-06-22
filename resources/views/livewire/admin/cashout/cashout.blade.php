@@ -24,14 +24,14 @@
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <label for="">Fecha inicial</label>
-                            <input type="date" wire:model.lazy="fromDate" class="form-control">
+                            <input type="text" wire:model.lazy="fromDate" class="form-control date">
                             @error('fromDate') <span class="text-danger">{{$message}}</span> @enderror
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <div class="form-group">
                             <label for="">Fecha final</label>
-                            <input type="date" wire:model.lazy="toDate" class="form-control">
+                            <input type="text" wire:model.lazy="toDate" class="form-control date">
                             @error('toDate') <span class="text-danger">{{$message}}</span> @enderror
                         </div>
                     </div>
@@ -63,8 +63,10 @@
                                 <th class="table-th text-center">ACTION</th>
                             </thead>
                             <tbody>
-                            @if($total <= 0)
+                            @if($sales && $fromDate && $toDate)
                                 <tr><td colspan="4"><h6 class="text-center">No hay ventas en la fecha seleccionada</h6></td></tr>
+                            @else
+                                <tr><td colspan="4"><h6 class="text-center">Seleccione un rango de fecha</h6></td></tr>
                             @endif
                             @foreach($sales as $s)
                                 <tr>

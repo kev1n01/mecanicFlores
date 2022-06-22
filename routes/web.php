@@ -52,8 +52,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'admin'],
     Route::get('/sales',\App\Http\Livewire\Admin\Sale\LiveSaleTable::class)->name('sales.table')
         ->middleware('can_view:vendedor');
 
-    //Rutas para cierre de caja
-    Route::get('/cashout',\App\Http\Livewire\Admin\Cashout\Cashout::class)->name('cashout')
+    //Rutas para reporte de caja
+    Route::get('/report/sale/seller',\App\Http\Livewire\Admin\Cashout\Cashout::class)->name('report.sale.seller')
         ->middleware('can_view:vendedor');
 
     //Rutas para vehiculos
@@ -63,8 +63,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'],'prefix' => 'admin'],
     //Rutas para servicios
     Route::get('/services',\App\Http\Livewire\Admin\Service\LiveServiceTable::class)->name('service.table')
         ->middleware('can_view:empleado');
-
-
-
-
+    Route::get('/services/create',\App\Http\Livewire\Admin\Service\LiveCreateService::class)->name('service.create')
+        ->middleware('can_view:empleado');
 });

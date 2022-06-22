@@ -51,7 +51,7 @@
                                 </a>
 
                                 <a href="javascript:void(0)" class="btn btn-danger"
-                                   wire:click="deleteStatus({{ $statu->id }})" data-toggle="tooltip" data-placement="top"
+                                   onclick="Confirm({{ $statu->id }},'delstatusproduct')" data-toggle="tooltip" data-placement="top"
                                    title="Eliminar estado">
                                     <i class="fa fa-trash"></i>
                                 </a>

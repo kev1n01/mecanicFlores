@@ -84,11 +84,13 @@ class LiveVehicleTable extends Component
 
         $vehicles = $vehicles->paginate($this->perPage);
 
-        // dd($vehicles);
         $customers = User::role('cliente')->get();
         $types = TypeVehicle::pluck('type_vehicle','id');
         $colors = ColorVehicle::pluck('color_vehicle','id');
-        $brands = BrandVehicle::pluck('brand_vehicle','id');
+//        $brands = BrandVehicle::pluck('brand_vehicle','id');
+        $brands = BrandVehicle::get()->unique('brand_vehicle');
+//        dd($brands);
+
         return view('livewire.admin.vehicle.live-vehicle-table',
             compact('vehicles','customers','colors','types','brands'))
             ->extends('layouts.admin.app')->section('content');

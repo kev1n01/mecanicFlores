@@ -10,6 +10,7 @@
     <title>
         @yield('title', config('app.name'))
     </title>
+      <link rel="icon" type="image/x-icon" href="{{asset('assets/build/images/logomecanic.png')}}"/>
 
     @include('layouts.admin.styles')
     @stack('styles')
@@ -33,13 +34,10 @@
             @yield('content')
         </div>
         <!-- /page content -->
-        
-        <!-- footer content -->
-        @include('layouts.admin.footer')
-        <!-- /footer content -->
+
       </div>
     </div>
-    
+
     @stack('modals')
     @include('layouts.admin.scripts')
     @stack('scripts')

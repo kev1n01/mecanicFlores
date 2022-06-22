@@ -14,7 +14,8 @@
 <link href="{{ asset('assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet">
 
 <!-- Select2 Style -->
-<link href="{{ asset('assets/build/css/select2.min.css') }}" rel="stylesheet">
+{{--<link href="{{ asset('assets/build/css/select2.min.css') }}" rel="stylesheet">--}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <!-- Style Custom mechanic -->
 <link href="{{ asset('assets/build/css/customMecanic.min.css') }}" rel="stylesheet">
@@ -29,4 +30,6 @@
 <link rel="stylesheet" href="{{ asset('assets/build/css/scrumboard.css')  }}">
 {{--<link rel="stylesheet" href="{{ asset('assets/build/css/notes.css')  }}">--}}
 
-<!-- popper-->
+<!-- flatpciker-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">

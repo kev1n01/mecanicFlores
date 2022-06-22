@@ -26,6 +26,8 @@ class LiveServiceTable extends Component
 
     public $employers = [];
     public $employer_id = '';
+    public $customers = [];
+    public $customer_id = '';
 
     //Variables de exportaciones
     public $selectedRows = [];
@@ -48,21 +50,31 @@ class LiveServiceTable extends Component
         $this->icon = $this->iconDirecction($this->order);
         $this->servicesRows = Service::all();
         $this->customers = User::role('cliente')->get();
+        $this->employers = User::role('empleado')->get();
     }
     public function render()
     {
 
-        $fi = Carbon::parse($this->dateSearch)->format('Y-m-d');
 
-        $services = Service::query()->with(['employer'])
-            ->termino($this->search)
+        $services = Service::with(['employer','customer','vehicle'])
+            ->orWhereHas('employer',function ($q){
+                $q->where('name','like',"%{$this->search}%");
+            })
+            ->orWhereHas('vehicle',function ($q){
+                $q->where('license_plate','like',"%{$this->search}%");
+            })
+            ->orWhere('card_service','like',"%{$this->search}%")
             ->card($this->cardSearch)
-            ->date($fi)
             ->plate($this->plateSearch);
 
-        if ($this->employer_id) {
-            $services = $services->emple($this->employer_id);
-        }
+            if ($this->dateSearch){
+                $fi = Carbon::parse($this->dateSearch)->format('Y-m-d');
+                $services = $services->date($fi);
+            }
+
+//        if ($this->employer_id) {
+//            $services = $services->emple($this->employer_id);
+//        }
 
         if ($this->camp && $this->order) {
             $services = $services->orderBy($this->camp, $this->order);

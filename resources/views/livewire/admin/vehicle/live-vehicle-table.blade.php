@@ -84,8 +84,8 @@
                         <th>
                             <select class="form-control " wire:model="brand_id">
                                 <option value="">Seleciona marca</option>
-                                @foreach ($brands as $key => $b)
-                                    <option value="{{ $key }}">{{ $b }}</option>
+                                @foreach ($brands as $b)
+                                    <option value="{{ $b->id }}">{{ $b->brand_vehicle }}</option>
                                 @endforeach
                             </select>
                         </th>

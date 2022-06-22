@@ -21,7 +21,7 @@ class RequestUpdateUse extends FormRequest
             'name' => 'required|min:3|max:30',
             'email' => ['required','email',Rule::unique('users','email')->ignore($user)],
             'role' => "required|in:{$roles}",
-            'user_status_id' => 'nullable',
+            'user_status_id' => 'required',
             'profile_photo_path' => 'nullable|image|mimes:jpg,png,jpge'
         ];
 
@@ -48,6 +48,7 @@ class RequestUpdateUse extends FormRequest
             'password.confirmed' => 'El campo no coincide con confirmar contraseña',
             'profile_photo_path.image' => 'El campo solo permite imagenes',
             'profile_photo_path.mimes' => 'Solo se acepta formatos jpg, png',
+            'user_status_id.required' => 'El estado es requerido',
 
         ];
     }

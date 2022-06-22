@@ -70,7 +70,7 @@
                             </select>
                         </th>
                         <th>
-                            <input class="form-control" placeholder="fecha" type="date" wire:model="dateSearch" >
+                            <input class="form-control date" placeholder="fecha" type="text" wire:model="dateSearch" >
                         </th>
                         <th>
                             <select class="form-control " wire:model="sale_status_id">
@@ -135,7 +135,7 @@
                                 <td>{{ $sale->customer->name }}</td>
                                 <td>{{ $sale->created_at }}</td>
                                 <td>{{ $sale->sale_status->name }}</td>
-                                <td>{{ $sale->total }}</td>
+                                <td>S/. {{ $sale->total }}</td>
                                 <td>{{ $sale->user->name }}</td>
 
                                 <td width="12%">

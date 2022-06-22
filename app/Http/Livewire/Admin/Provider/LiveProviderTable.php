@@ -34,7 +34,7 @@ class LiveProviderTable extends Component
     public $selectPageRows = false;
 
     protected $listeners = [
-        'productListUpdate' => 'render',
+        'providerListUpdate' => 'render',
         'delprovider' => 'deleteProvider',
     ];
 

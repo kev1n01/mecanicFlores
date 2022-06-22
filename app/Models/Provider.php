@@ -15,6 +15,7 @@ class Provider extends Model
         'address',
         'ruc',
         'name_company',
+        'provider_status_id',
         'image',
     ];
     public function products(){
@@ -26,7 +27,9 @@ class Provider extends Model
     public function getImageProviderAttribute(){
         return $this->image ?? 'providers-photos/default.jpg';
     }
-
+    public function getStatusNameAttribute(){
+        return $this->provider_status->name == 'active' ? 'activo' : 'inactivo';
+    }
     public function provider_status()
     {
         return $this->belongsTo(ProviderEstatus::class);

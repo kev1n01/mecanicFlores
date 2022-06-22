@@ -38,7 +38,9 @@ class Product extends Model
     public function getImageProductAttribute(){
         return $this->image ?? 'products-photos/default.jpg';
     }
-
+    public function getStatusNameAttribute(){
+        return $this->product_status->name == 'active' ? 'activo' : 'inactivo';
+    }
     public function scopeTermino($query,$termino){
         if($termino === ''){
             return;

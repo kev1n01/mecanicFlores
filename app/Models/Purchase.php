@@ -31,6 +31,13 @@ class Purchase extends Model
     {
         return $this->belongsTo(PurchaseEstatus::class, 'status');
     }
+    public function getStatusColorAttribute(){
+        if($this->purchase_status->name == 'nueva'){ return 'badge-info';}
+        if($this->purchase_status->name == 'aprobada'){ return 'color-basic';}
+        if($this->purchase_status->name == 'restrasada'){ return 'badge-secondary';}
+        if($this->purchase_status->name == 'recibida'){ return 'color-basic-2';}
+        if($this->purchase_status->name == 'anulada'){ return 'color-red';}
+    }
     public function scopeStatus($query,$status){
         if($status === ''){
             return;

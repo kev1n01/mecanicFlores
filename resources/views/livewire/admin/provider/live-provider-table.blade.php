@@ -36,8 +36,7 @@
                         Crear
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" wire:click="$emit('toogleModalProduct')"><i class="fas fa-plus"></i> Producto</a>
-                        <a class="dropdown-item" wire:click="$emit('toogleModalStatus')"><i class="fas fa-plus"></i> Estado</a>
+                        <a class="dropdown-item" wire:click="$emit('toogleModalProvider')"><i class="fas fa-plus"></i> Proveedor</a>
                     </div>
                 </div>
             @endcan
@@ -95,7 +94,7 @@
                         <th class="icon-filter">
                             <span>
                                 <i class="fas fa-filter"></i>
-                                Filtrar por
+                                Filtros
                             </span>
                         </th>
                     </tr>
@@ -154,7 +153,14 @@
                                 <td>{{ $provider->phone }}</td>
                                 <td>{{ $provider->name_company }}</td>
                                 <td>{{ $provider->address }}</td>
-                                <td>{{ $provider->provider_status->name}}</td>
+                                <td>
+                                    <h6>
+                                        <span class=" badge {{ $provider->provider_status->id == 1 ? 'color-basic-2' : 'color-red'}}">
+                                            {{ strtoupper($provider->status_name)}}
+                                        </span>
+                                    </h6>
+
+                                </td>
 
                                 <td width="12%">
                                     @can('usuario update')
@@ -209,8 +215,7 @@
 </div>
 
 @push('modals')
-{{--    @livewire('admin.modal.provider.modal-provider')--}}
-{{--    @livewire('admin.modal.status.modal-status-provider')--}}
+    @livewire('admin.modal.provider.modal-provider')
 @endpush
 
 @push('scripts')
@@ -221,12 +226,6 @@
         });
         window.addEventListener('open-modal', event => {
             $('#ProviderModal').modal('show');
-        });
-        window.addEventListener('open-modal-status', event => {
-            $('#StatusModalProvider').modal('show');
-        });
-        window.addEventListener('close-modal-status', event => {
-            $('#StatusModalProvider').modal('hide');
         });
 
     </script>

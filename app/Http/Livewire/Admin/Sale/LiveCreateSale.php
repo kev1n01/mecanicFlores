@@ -31,10 +31,21 @@ class LiveCreateSale extends Component
         $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
     }
+
+    public function updated(){
+        $customerget = User::find($this->customer_id);
+        $this->phone_customer = $customerget->phone;
+        if($customerget->dni){
+            $this->identidad_customer = $customerget->dni;
+        }else{
+            $this->identidad_customer = $customerget->ruc;
+        }
+    }
+
     public function render()
     {
         return view('livewire.admin.sale.live-create-sale', [
-            'denominations' => Denomination::orderBy('value','desc')->get(),
+                'denominations' => Denomination::orderBy('value','desc')->get(),
             'cart' => Cart::getContent()->sortBy('name')])
             ->extends('layouts.admin.app')->section('content');
     }

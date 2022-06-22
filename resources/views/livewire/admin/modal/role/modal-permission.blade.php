@@ -13,10 +13,11 @@
                     <span >{{$key}}</span>
                 </div>
                 <div class="form-group  float-right">
+
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" wire:model="permission_check.{{$key}}.check"
-                                wire:click="addPermissionKey('{{$key}}')">
+                            <input type="checkbox" class="iradio_flat-green " wire:model="permission_check.{{$key}}.check"
+                                wire:click="addPermissionKey('{{$key}}')" >
                         </label>
                     </div>
                 </div>

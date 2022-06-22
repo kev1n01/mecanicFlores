@@ -145,7 +145,7 @@
                             <td>
                                 <h6>
                                     <span class=" badge {{ $user->user_status_id == 1 ? 'color-basic-2 ' : 'color-red'}}">
-                                            {{ strtoupper( $user->user_status->name)}}
+                                            {{ strtoupper( $user->status_name)}}
                                     </span>
                                 </h6>
                             </td>

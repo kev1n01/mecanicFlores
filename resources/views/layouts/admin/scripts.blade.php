@@ -23,12 +23,25 @@
 <script src="{{ asset('assets/build/js/customMecanic.min.js') }}"></script>
 
 <!-- Select2 Scripts -->
-<script src="{{ asset('assets/build/js/select2.min.js') }}"></script>
+{{--<script src="{{ asset('assets/build/js/select2.min.js') }}"></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 {{-- sweetalert2 --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- flatpciker-->
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script>
+    $(document).ready(function(){
+        flatpickr(".date",{
+            "locale":"es",
+
+            // enableTime: true,
+        });
+    });
+
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

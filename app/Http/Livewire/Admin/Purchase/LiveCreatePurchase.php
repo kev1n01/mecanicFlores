@@ -3,29 +3,31 @@
 namespace App\Http\Livewire\Admin\Purchase;
 
 use App\Models\PurchaseEstatus;
+use App\Models\User;
 use Livewire\Component;
-
 use App\Models\Provider;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use DB;
+use Illuminate\Support\Facades\Redirect;
+use Livewire\WithPagination;
 use function Symfony\Component\Translation\t;
 
 class LiveCreatePurchase extends Component
 {
-    public $providers, $provider, $search;
-    public $invoice_code, $observation;
-    public $date_purchase , $status_id, $status;
-    public function mount()
-    {
-        $this->status_id = 1;
-        $this->invoice_code = $this->generator_code_random(4);
-        $this->providers = Provider::all();
-        $this->status = PurchaseEstatus::pluck('name','id');
-
-    }
-
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $total,$itemsQuantity,$provider_id,$status = [],$providers = [], $product_category, $product_brand
+    ,$ruc_provider, $phone_provider,$search,$code_purchase, $observation ,$date_purchase
+    ,$status_id;
+    protected $listeners = [
+        'addToCart' => 'addToCart',
+        'removeItem' => 'removeItem',
+        'clearCart' => 'clearCart',
+        'savePurchase' => 'savePurchase',
+    ];
     public function generator_code_random($longitud){
         $codigo="";
         $caracter="Letra";
@@ -43,113 +45,174 @@ class LiveCreatePurchase extends Component
         }
         return 'C-'.$codigo;
     }
-    public function render()
-    {
-        $products = Product::termino($this->search)->status(1);
-        $products = $products->status(1)->get();
-        $cart_content = Cart::getContent()->sortBy('name');
-        $total = Cart::getTotal();
-        $items_count = Cart::getTotalQuantity();
-
-        return view('livewire.admin.purchase.live-create-purchase',
-            compact('cart_content', 'total', 'products', 'items_count'))
-            ->extends('layouts.admin.app')->section('content');
+    public function mount(){
+        $this->status_id = 1;
+        $this->code_purchase = $this->generator_code_random(4);
+        $this->status = PurchaseEstatus::pluck('name','id');
+        $this->providers = Provider::all();
+        $this->total = Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
     }
-
-    public function removeItem($remove_id)
-    {
-        Cart::remove($remove_id);
-        $this->emit('successful_alert', 'Se eleminó el producto');
+    public function updated(){
+        $providerget= Provider::find($this->provider_id);
+        $this->phone_provider = $providerget->phone;
+        $this->ruc_provider = $providerget->ruc;
     }
-    public function quantityMinus($product_id)
-    {
-        $product = Product::find($product_id);
-        $item = Cart::get($product_id);
-        $new_quantity = $item->quantity - 1;
-        if ($new_quantity > 0) {
-            Cart::remove($product->id);
-            Cart::add($product->id, $product->name, $product->purchase_price, $new_quantity, $product->image_product);
-            $this->emit('successful_alert', 'Cantidad reducida!');
-        } else {
-            $this->emit('warning_alert', 'No se puede reducir la cantidad!');
-        }
-    }
-
-    public function quantityPlus($product_id, $quantity = 1)
-    {
-        $product = Product::find($product_id);
-        Cart::add($product->id, $product->name, $product->purchase_price, $quantity, $product->image_product);
-        $this->emit('successful_alert', 'Cantidad aumentada!');
-
-    }
-    public function addToCart($product_id)
-    {
-        $product = Product::find($product_id);
-        Cart::add($product->id, $product->name, $product->purchase_price, 1, $product->image_product);
-        $this->emit('successful_alert', 'Producto agregado!');
-    }
-
-    public function clearCart()
-    {
-        Cart::clear();
-        $this->emit('successful_alert', 'Carrito limpiado!');
-    }
-
     public function resetSearch()
     {
         $this->search = '';
-        $this->emit('successful_alert', 'Busqueda restablecido!');
     }
-
-    public function savePurchase()
+    public function render()
     {
-        $this->validate([
-            'provider' => 'required',
-            'status_id' => 'required',
-            'invoice_code' => 'required',
-            'date_purchase' => 'required',
-            'observation' => 'nullable|max:50',
-        ]);
+        $products = Product::termino($this->search)
+                    ->status(1)->where('stock','<=',5);
 
-        $items_count = Cart::getTotalQuantity();
-        if ($items_count > 0) {
-            $purchase = Purchase::create([
-                'provider_id' => $this->provider,
-                'user_id' => auth()->user()->id,
-                'total' => Cart::getTotal(),
-                'code_purchase' => $this->invoice_code,
-                'date_purchase' => $this->date_purchase,
-                'observation' => $this->observation,
-                'status' => $this->status_id
-            ]);
+        $products = $products->simplePaginate(2);
+        return view('livewire.admin.purchase.live-create-purchase', [
+            'products' => $products,
+            'cart' => Cart::getContent()->sortBy('name')])
+            ->extends('layouts.admin.app')->section('content');
+    }
+    public function addToCart($code,$cant=1){
+        $product = Product::where('code',$code)->first();
+        if ($product == null ) {
+            $this->emit('warning_alert', 'El producto no está registrado');
+        }else{
+            if ($product->stock > 18){
+                $this->emit('warning_alert','Este producto tiene suficiente stock');
+            }elseif ($product->product_status_id != 1){
+                $this->emit('warning_alert','Este producto no puede ser comprado por que está inactivo 😥');
+            }else{
+                if($this->InCart($product->id)){
+                    $this->increaseQty($product->id);
+                    return ;
+                }
+                Cart::add($product->id,$product->name,$product->purchase_price,$cant,$product->image_product);
+                $this->total = Cart::getTotal();
+                $this->itemsQuantity = Cart::getTotalQuantity();
 
-            foreach (Cart::getContent() as $key => $value) {
-                PurchaseDetail::create([
-                    'purchase_id' => $purchase->id,
-                    'product_id' => $value->id,
-                    'quantity' => $value->quantity,
-                    'price' => $value->price,
-                ]);
-
-                $product = Product::find($value->id);
-                $product->stock = $product->stock + $value->quantity;
-                $product->save();
+                $this->emit('successful_alert','El producto fue agregado a la compra');
             }
-            Cart::clear();
-            $this->emit('successful_alert', 'Compra realizada!');
-            return redirect()->route('purchases.table');
-        } else {
-            $this->emit('warning_alert', 'Carrito vacio!, Seleccione un producto');
+        }
+    }
+    public function InCart($productId){
+        $exist = Cart::get($productId);
+        if ($exist)
+            return true;
+        else
+            return false;
+    }
+    public function increaseQty($productId, $cant=1){
+        $title = '';
+        $product = Product::find($productId);
+        $exist = Cart::get($productId);
+        if ($exist){
+            $title = 'Cantidad actualizada';
+        }else{
+            $title = 'Producto agregado';
+        }
+
+        Cart::add($product->id,$product->name,$product->purchase_price,$cant,$product->image_product);
+        $this->total =Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->emit('successful_alert', $title);
+    }
+    public function decreaseQty($productId){
+        $product = Cart::get($productId);
+        Cart::remove($productId);
+
+        $newQty = ($product->quantity) - 1;
+        if ($newQty > 0)
+        {
+            Cart::add($product->id,$product->name,$product->purchase_price,$newQty,$product->attributes[0]);
+        }
+        $this->total =Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->emit('successful_alert', 'Cantidad actualizada');
+    }
+    public function updateQuantity($productId, $cant=1){
+        $title = '';
+        $product = Product::find($productId);
+        $exist = Cart::get($productId);
+        if ($exist){
+            $title = 'Cantidad actualizada';
+        }else{
+            $title = 'Producto agregado';
+        }
+
+        $this->removeItem($productId);
+        if ($cant > 0){
+            Cart::add($product->id,$product->name,$product->purchase_price,$cant,$product->image_product);
+            $this->total =Cart::getTotal();
+            $this->itemsQuantity = Cart::getTotalQuantity();
+            $this->emit('successful_alert', $title);
+        }else{
+            $this->emit('successful_alert', 'La cantidad debe ser mayor a 0');
 
         }
     }
-
-    public function cancelPurchase()
-    {
+    public function removeItem($productId){
+        Cart::remove($productId);
+        $this->total =Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->emit('successful_alert', 'El producto se eliminó del carrito');
+    }
+    public function clearCart(){
         Cart::clear();
-        $this->search = '';
-        $this->emit('warning_alert', 'Compra cancelada!');
-        return redirect()->route('purchases.table');
+        $this->total = Cart::getTotal();
+        $this->itemsQuantity = Cart::getTotalQuantity();
+        $this->emit('successful_alert', 'Carrito vacio');
+    }
+    public function savePurchase()
+    {
+        if($this->total <= 0)
+        {
+            $this->emit('warning_alert', 'AGEGA PRODUCTOS A LA COMPRA');
+            return;
+        }
+        DB::beginTransaction();
+//        'provider_id',
+//        'user_id',
+//        'total',
+//        'code_purchase',
+//        'date_purchase',
+//        'observation',
+//        'status',
+        try {
+            $purchase= Purchase::create([
+                'user_id' => Auth()->user()->id,
+                'provider_id' => $this->provider_id,
+                'total' => $this->total,
+                'code_purchase' => $this->code_purchase,
+                'date_purchase' => $this->date_purchase,
+                'observation' => $this->observation,
+                'status' => $this->status_id,
+            ]);
+            if ($purchase){
+                $items = Cart::getContent();
+                foreach ($items as $item) {
+                    PurchaseDetail::create([
+                        'price' => $item->price,
+                        'quantity' => $item->quantity,
+                        'product_id' => $item->id,
+                        'purchase_id' => $purchase->id,
+                    ]);
+
+                    //update stock product saled
+                    $product = Product::find($item->id);
+                    $product->stock = $product->stock + $item->quantity;
+                    $product->save();
+                }
+            }
+            DB::commit();
+            Cart::clear();
+            $this->total = Cart::getTotal();
+            $this->itemsQuantity = Cart::getTotalQuantity();
+            $this->emit('successful_alert', 'Compra registrada!');
+        }catch (\Exception $e){
+            DB::rollback();
+            $this->emit('warning_alert', $e->getMessage());
+        }
     }
 }
 

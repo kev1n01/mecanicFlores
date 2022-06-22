@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\{Component, WithPagination};
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Maatwebsite\Excel\Excel;
-
+use App\Http\Livewire\Admin\Purchase\LiveCreatePurchase as AddPurchase;
 class LiveProductTable extends Component
 {
     use WithPagination;
@@ -45,13 +45,11 @@ class LiveProductTable extends Component
         'delproduct' => 'deleteProduct'
     ];
     protected $paginationTheme = 'bootstrap';
-
     protected $queyString = [
         'search' => ['except' => ''],
         'order' => ['except' => null],
         'camp' => ['except' => null],
     ];
-
     public function mount()
     {
         $this->icon = $this->iconDirecction($this->order);
@@ -62,6 +60,17 @@ class LiveProductTable extends Component
 
     }
 
+    public function addProductToPurchase(Product $product){
+        if ($product->stock > 18){
+            $this->emit('warning_alert','Este producto tiene suficiente stock');
+        }elseif ($product->product_status_id != 1){
+            $this->emit('warning_alert','Este producto no puede ser comprado por que está inactivo 😥');
+        }else{
+            $purchase = new AddPurchase();
+            $purchase->addToCart($product->code);
+            $this->emit('successful_alert', 'El producto fue agregado pa comprar');
+        }
+    }
     public function render()
     {
         $products = Product::with(['category_product','brand_product'])
@@ -121,7 +130,6 @@ class LiveProductTable extends Component
             'product_brand_id',
             'product_status_id']);
         $this->resetPage();
-
     }
 
     // funcion de livewire que actualiza una variable

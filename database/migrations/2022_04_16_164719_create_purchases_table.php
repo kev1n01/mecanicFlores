@@ -25,7 +25,7 @@ class CreatePurchasesTable extends Migration
             $table->string('code_purchase')->unique();
             $table->date('date_purchase');
             $table->text('observation')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }
