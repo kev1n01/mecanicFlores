@@ -62,23 +62,6 @@
                         </li>
                     @endif
 
-                    @if (canView('empleado'))
-                        <li><a><i class="fa fa-car"></i> Vehiculos <span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                 <li><a href="{{route('vehicles.table')}}" class="nav-link {{(request()->is('admin/vehicles')) ? 'active' : '' }}">
-                                         Lista de vehiculos</a></li>
-                            </ul>
-                        </li>
-                    @endif
-
-                    @if (canView('empleado'))
-                        <li><a><i class="fa fa-wrench"></i> Servicios <span class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                 <li><a href="{{route('service.table')}}" class="nav-link {{(request()->is('service/list')) ? 'active' : '' }}">Lista de servicios</a></li>
-                                 <li><a href="{{route('service.create')}}" class="nav-link {{(request()->is('service/create')) ? 'active' : '' }}">Crear un servicio</a></li>
-                            </ul>
-                        </li>
-                    @endif
                     @if (canView('vendedor'))
                             <li><a><i class="fa fa-cash-register"></i>Control de ventas<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -90,30 +73,6 @@
                                 </ul>
                             </li>
                     @endif
-                        @if (canView('vendedor'))
-                            <li><a><i class="fa fa-clipboard"></i>Reportes<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a><i class="fa fa-cash-register"></i>Ventas<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="{{route('report.sale.seller')}}" class="nav-link {{(request()->is('admin/report/sale/seller')) ? 'active' : '' }}">
-                                                    Por vendedor</a>
-                                            </li>
-                                        </ul>
-
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-
-                    @if (canView('empleado'))
-                        <li><a><i class="fa fa-file-lines"></i> Cotizacion <span class="fa fa-chevron-down"></span></a>
-                        </li>
-                    @endif
-
-                    @if (canView('vendedor'))
-                        <li><a><i class="fa fa-file-invoice"></i> Facturas <span class="fa fa-chevron-down"></span></a>
-                        </li>
-                    @endif
                 </ul>
             </div>
 
@@ -123,11 +82,11 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-            @role('administrador')
+            @if (canView('usuario'))
                 <a style="width: 100%;" data-toggle="tooltip" data-placement="top" title="Ajustes">
                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a>
-            @endrole
+            @endif
 
         </div>
         <!-- /menu footer buttons -->
