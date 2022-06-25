@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(3)->create();
         $this->call(ProviderSeeder::class);
         $this->call(ProviderEstatusSeeder::class);
-        $this->call(PurchaseSeeder::class);
+//        $this->call(PurchaseSeeder::class);
         $this->call(PurchaseEstatusSeeder::class);
         $this->call(SaleEstatusSeeder::class);
         $this->call(DenominationSeeder::class);
