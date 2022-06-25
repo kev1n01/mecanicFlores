@@ -11,8 +11,8 @@
             </x-slot>
         </x-jet-section-title>
     </div>
-    <div class="col-md-8">
-        <div class="card shadow-sm">
+    <div class="col-md-12">
+        <div class="card bg-dark shadow-sm">
             <form wire:submit.prevent="{{ $submit }}">
                 <div class="card-body">
                 {{ $form }}

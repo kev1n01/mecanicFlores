@@ -81,7 +81,7 @@ class LivePurchaseTable extends Component
 
         $purchases = $purchases->paginate($this->perPage);
         return view('livewire.admin.purchase.live-purchase-table', compact('purchases'))
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
 
     //funcion para resetear variables
@@ -117,11 +117,11 @@ class LivePurchaseTable extends Component
         switch ($this->order) {
             case null:
                 $this->order = 'asc';
-                $this->icon = '-sort-amount-down-alt';
+                $this->icon = '-sort-amount-asc';
                 break;
             case 'asc':
                 $this->order = 'desc';
-                $this->icon = '-sort-amount-down';
+                $this->icon = '-sort-amount-desc';
                 break;
             case 'desc':
                 $this->order = null;
@@ -138,7 +138,7 @@ class LivePurchaseTable extends Component
         if (!$sort) {
             return '-sort';
         }
-        return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
+        return $sort === 'asc' ? '-sort-amount-asc' : '-sort-amount-desc';
     }
 
     // funcion que elimina un usuario

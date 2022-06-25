@@ -21,7 +21,7 @@ class ModalCategory extends Component
     public $active_category_add = false;
     public $active_category_update = false;
 
-    protected $listeners = ['toogleModalCategory'];
+    protected $listeners = ['toogleModalCategory','deleteCategory'];
 
     public function render()
     {

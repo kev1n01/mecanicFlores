@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <title>
         @yield('title', config('app.name'))
@@ -47,8 +47,8 @@
                 <div class="navbar-header d-flex align-items-center">
                     <a href="javascript:void:(0)" class="mobile-toggle"><i class="ti ti-align-right"></i></a>
                     <a class="navbar-brand" href="index.html">
-                        <img src="assets/img/logo.png" class="img-fluid logo-desktop" alt="logo" />
-                        <img src="assets/img/logo-icon.png" class="img-fluid logo-mobile" alt="logo" />
+                        <span class="logo-desktop">ENETERO</span>
+                        <span class="logo-mobile">E</span>
                     </a>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,38 +72,21 @@
                         </ul>
                         <ul class="navbar-nav nav-right ml-auto">
 
-                            <li class="nav-item">
-                                <a class="nav-link search" href="javascript:void(0)">
-                                    <i class="ti ti-search"></i>
-                                </a>
-                                <div class="search-wrapper">
-                                    <div class="close-btn">
-                                        <i class="ti ti-close"></i>
-                                    </div>
-                                    <div class="search-content">
-                                        <form>
-                                            <div class="form-group">
-                                                <i class="ti ti-search magnifier"></i>
-                                                <input type="text" class="form-control autocomplete" placeholder="Search Here" id="autocomplete-ajax" autofocus="autofocus">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
                             <li class="nav-item dropdown user-profile">
                                 <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="assets/img/avtar/02.jpg" alt="avtar-img">
+                                    <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                         class="circle-rounded">
                                     <span class="bg-success user-status"></span>
                                 </a>
                                 <div class="dropdown-menu animated fadeIn" aria-labelledby="navbarDropdown">
                                     <div class="bg-gradient px-4 py-3">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="mr-1">
-                                                <h4 class="text-white mb-0">Admin ****</h4>
-                                                <small class="text-white">Admin@example.com</small>
+                                                <h4 class="text-white mb-0">{{ Auth::user()->name }}</h4>
+                                                <small class="text-white">{{ Auth::user()->email }}</small>
                                             </div>
 
-                                            <a class="text-white font-20 tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="cerrar seccion" href="{{ route('logout') }}"
+                                            <a class="text-white font-20 tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="cerrar sesión" href="{{ route('logout') }}"
                                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                                 <i class="zmdi zmdi-power"></i>
@@ -115,31 +98,9 @@
                                         </div>
                                     </div>
                                     <div class="p-4">
-                                        <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
-                                            <i class="fa fa-user pr-2 text-success"></i> perfil</a>
-                                        <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
-                                            <i class="fa fa-envelope pr-2 text-primary"></i> bandeja de entrada
-                                            <span class="badge badge-primary ml-auto">6</span>
+                                        <a class="dropdown-item d-flex nav-link" href="{{route('user.myprofile')}}">
+                                            <i class="fa fa-user pr-2 text-success"></i> Mi perfil
                                         </a>
-                                        <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
-                                            <i class=" ti ti-settings pr-2 text-info"></i> ajustes
-                                        </a>
-                                        <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
-                                            <i class="fa fa-compass pr-2 text-warning"></i> nesecitas ayuda?</a>
-                                        <div class="row mt-2">
-                                            <div class="col">
-                                                <a class="bg-light p-3 text-center d-block" href="#">
-                                                    <i class="fe fe-mail font-20 text-primary"></i>
-                                                    <span class="d-block font-13 mt-2">mi mensajes</span>
-                                                </a>
-                                            </div>
-                                            <div class="col">
-                                                <a class="bg-light p-3 text-center d-block" href="#">
-                                                    <i class="fe fe-plus font-20 text-primary"></i>
-                                                    <span class="d-block font-13 mt-2">nuevo mensaje</span>
-                                                </a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -168,6 +129,62 @@
 
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 <script src="{{ asset('assets/js/app1.js') }}"></script>
+
+<script>
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        background: '#80b77e',
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+    function ToastSuccessfulNotification(msg) {
+        Toast.fire({
+            icon: 'success',
+            title: msg,
+        })
+    }
+    function ToastWarningNotification(msg) {
+        Toast.fire({
+            icon: 'error',
+            title: msg,
+        })
+    }
+    function Confirm(id,event)
+    {
+        Swal.fire({
+            title: 'CONFIRMAR',
+            text: '¿CONFIRMAS ELIMINAR EL REGISTRO?',
+            type: 'warning',
+            iconColor: '#1ABB9C',
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            cancelButtonColor: '#9d9c9c',
+            confirmButtonColor: '#383F5C',
+            confirmButtonText: 'Aceptar',
+        }).then((result) => {
+            if(result.value) {
+                window.livewire.emit(event, id)
+                Swal.close()
+            }
+        })
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        window.livewire.on('successful_alert', Msg => {
+            ToastSuccessfulNotification(Msg);
+        });
+        window.livewire.on('warning_alert', Msg => {
+            ToastWarningNotification(Msg);
+        });
+
+    });
+</script>
 @stack('modals')
 @stack('scripts')
 @livewireScripts

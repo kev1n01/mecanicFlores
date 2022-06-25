@@ -1,16 +1,17 @@
-<div>
-    <div class="col-md-6">
+<div class="row">
+
+    <div class="col-md-6 mr-0">
         <div class="card">
             <div class="card-header thead-basic" >
-                <h6 class="rol_center text-white" >
+                <h5 class="rol_center text-center " >
                     Roles
-                </h6>
+                </h5>
             </div>
             <div class="card-body">
-                <div style="float: left;" >
+                <div style="float: left; padding-bottom: 4px;"  >
                     @can('role create')
                         <button wire:click="$emit('toogleModal')" class="btn btn-dark color-basic">
-                            <i class="fas fa-plus"></i>Nuevo rol
+                            <i class="fa fa-plus"></i>Nuevo rol
                         </button>
                     @endcan
 
@@ -30,7 +31,7 @@
                         <tr>
                             <td>{{ $role->name }}</td>
                             <td>
-                                <h6><strong class="badge badge-pill color-basic-2">{{ $role->count_user }}</strong></h6>
+                                <h6><strong class="badge badge-pill badge-dark-inverse">{{ $role->count_user }}</strong></h6>
                             </td>
                             <td width="20%">
                                 <h6><span wire:click="$emit('toogleModal',{{ $role->id }},'Role')"
@@ -51,13 +52,12 @@
 
             </div>
         </div>
-
     </div>
 
     <div class="col-md-6">
         <div class="card">
             <div class="card-header thead-basic" >
-                <h6 class="rol_center text-white" >
+                <h6 class="rol_center text-center " >
                     Permisos
                 </h6>
             </div>
@@ -77,7 +77,7 @@
                         <tr>
                             <td>{{$permiso->name}}</td>
                             <td>
-                                <h6><span class="badge badge-pill color-basic-2 rounded-full th-pointer">
+                                <h6><span class="badge badge-pill badge-primary-inverse">
                                     {{$permiso->count_user}}</td>
                                 </span></h6>
                             <td width="20%">
@@ -93,12 +93,9 @@
                     </tbody>
                 </x-component-table>
                 </div>
-
             </div>
         </div>
-
     </div>
-
 </div>
 
 @push('modals')

@@ -93,6 +93,7 @@ class LiveProductTable extends Component
         if ($this->product_brand_id) {
             $products = $products->brand($this->product_brand_id);
         }
+
         if ($this->product_category_id) {
             $products = $products->category($this->product_category_id);
         }
@@ -112,7 +113,7 @@ class LiveProductTable extends Component
         //En la vista usar for $users as $user => $user->users_status->name
 
         return view('livewire.admin.product.live-product-table', ['products' => $products])
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
 
     //funcion para resetear variables
@@ -147,11 +148,11 @@ class LiveProductTable extends Component
         switch ($this->order) {
             case null:
                 $this->order = 'asc';
-                $this->icon = '-sort-amount-down-alt';
+                $this->icon = '-sort-amount-asc';
                 break;
             case 'asc':
                 $this->order = 'desc';
-                $this->icon = '-sort-amount-down';
+                $this->icon = '-sort-amount-desc';
                 break;
             case 'desc':
                 $this->order = null;
@@ -168,7 +169,7 @@ class LiveProductTable extends Component
         if (!$sort) {
             return '-sort';
         }
-        return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
+        return $sort === 'asc' ? '-sort-amount-asc' : '-sort-amount-desc';
     }
 
     // funcion que elimina un usuario

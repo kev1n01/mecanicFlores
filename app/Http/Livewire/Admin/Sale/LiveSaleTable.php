@@ -70,7 +70,7 @@ class LiveSaleTable extends Component
 
         $sales = $sales->paginate($this->perPage);
         return view('livewire.admin.sale.live-sale-table',compact('sales'))
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
 
     public function clear()
@@ -99,11 +99,11 @@ class LiveSaleTable extends Component
         switch ($this->order) {
             case null:
                 $this->order = 'asc';
-                $this->icon = '-sort-amount-down-alt';
+                $this->icon = '-sort-amount-asc';
                 break;
             case 'asc':
                 $this->order = 'desc';
-                $this->icon = '-sort-amount-down';
+                $this->icon = '-sort-amount-desc';
                 break;
             case 'desc':
                 $this->order = null;
@@ -120,7 +120,7 @@ class LiveSaleTable extends Component
         if (!$sort) {
             return '-sort';
         }
-        return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
+        return $sort === 'asc' ? '-sort-amount-asc' : '-sort-amount-desc';
     }
 
     // funcion que elimina un usuario

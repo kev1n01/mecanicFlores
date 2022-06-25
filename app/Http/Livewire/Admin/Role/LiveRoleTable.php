@@ -13,19 +13,19 @@ class LiveRoleTable extends Component
 
     public function render()
     {
-        $roles = Role::all(); 
-        
+        $roles = Role::all();
+
         $roles = $roles->each(function($role){
             $role->count_user = User::role($role->name)->count();
         });
-    
-        $permisos = Permission::all(); 
+
+        $permisos = Permission::all();
         $permisos = $permisos->each(function($p){
             $p->count_user = User::permission($p->name)->count();
         });
-        
+
         return view('livewire.admin.role.live-role-table',compact('roles','permisos'))
-        ->extends('layouts.admin.app')->section('content');
+        ->extends('layouts.admin.appenetero')->section('content');
     }
 
     public function deleteRole(Role $role){

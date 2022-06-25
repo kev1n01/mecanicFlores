@@ -7,49 +7,53 @@
     </nav>
 
     <div class="card">
+        <div class="card-header ">
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="row">
+                    <div class="col-md-2   ">
+                        <select wire:model="perPage" class="form-control">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div class=" col-md-10 ">
+                        <input type="text" wire:model="search" class="form-control "
+                               placeholder="Busqueda por datos en general ">
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+                            type="button" wire:click="clear">
+                        <i class="fa fa-eraser"></i><span> Limpiar</span>
+                    </button>
 
-        <div class="card-header">
-            <div class="col-md-1  col-sm-2 ">
-                <select wire:model="perPage" class="form-control">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
+                    @can('usuario create')
+                        <button class="btn btn-dark color-basic " wire:click="showModal" type="button" data-toggle="tooltip"
+                                data-placement="top" title="Crear nuevo usuario">
+                            <span><i class="fa fa-plus"></i> Crear Nuevo</span>
+                        </button>
+                    @endcan
 
-            <div class="form-group col-md-4 col-sm-10 search">
-                <input type="text" wire:model="search" class="form-control "
-                    placeholder="Busqueda por datos en general ">
-            </div>
-
-            <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
-                type="button" wire:click="clear">
-                <i class="fas fa-eraser"></i><span> Limpiar</span>
-            </button>
-
-            @can('usuario create')
-            <button class="btn btn-dark color-basic " wire:click="showModal" type="button" data-toggle="tooltip"
-                data-placement="top" title="Crear nuevo usuario">
-                <span><i class="fas fa-plus"></i> Crear Nuevo</span>
-            </button>
-            @endcan
-
-            <button type="button" class="btn btn-dark color-basic dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown"
-                aria-expanded="false" data-offset="10,20">
-                <i class="fas fa-file-excel"></i>
-                Exportar
-                @if ($selectedRows)
-                <span class="badge  badge-default badge-color">{{  count($selectedRows)  }}</span>
-                @endif
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                <a class="dropdown-item " href="{{ route('users.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
-                <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> pdf simple</a>
-                <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
-                <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                    <button type="button" class="btn btn-dark color-basic dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown"
+                            aria-expanded="false" data-offset="10,20">
+                        <i class="ti ti-export"></i>
+                        @if ($selectedRows)
+                            <span class="badge badge-default" style="background-color: white; color: #0f0f0f;">{{  count($selectedRows)  }}</span>
+                        @endif
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                        <a class="dropdown-item " href="{{ route('users.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                        <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> pdf simple</a>
+                        <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                        <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -66,12 +70,12 @@
                             <input class="form-control " placeholder="nombre" type="text" wire:model="nameSearch">
                         </th>
                         <th>
-                            <input class="form-control" placeholder="corre electronico" type="text"
+                            <input class="form-control" placeholder="corre electrónico" type="text"
                                 wire:model="emailSearch">
                         </th>
                         <th>
                             <select class="form-control " wire:model="user_status_id">
-                                <option value="">Seleciona estado</option>
+                                <option value="">Seleciona </option>
                                 @foreach ($status as $key => $statu)
                                 <option value="{{ $key }}">{{ $statu }}</option>
                                 @endforeach
@@ -80,7 +84,7 @@
                         <th>
 
                             <select class="form-control " wire:model="user_role">
-                                <option value="">Seleciona Rol</option>
+                                <option value="">Seleciona </option>
                                 @foreach ($roles as $key => $role)
                                 <option value="{{ $key }}">{{ $role }}</option>
                                 @endforeach
@@ -88,13 +92,13 @@
                         </th>
                         <th class="icon-filter">
                             <span>
-                                <i class="fas fa-filter"></i>
+                                <i class="ti ti-filter"></i>
                                 Filtrar por
                             </span>
                         </th>
                     </tr>
 
-                    <thead class="thead-basic">
+                    <thead style="background: #2A3F54; color: white;">
                         <tr>
                             <th class="table-th text-center">
                                 <div class="icheck-primary" style="height: 15px">
@@ -106,11 +110,11 @@
 
                             <th class="table-th text-center" scope="col">Imagen</th>
                             <th width="20%" wire:click="sortable('name')" class="th-pointer table-th text-center" scope="col">Nombre
-                                <span class=" th-span fas fa{{ $camp === 'name' ? $icon : '-sort' }}"></span>
+                                <span class=" th-span fa fa{{ $camp === 'name' ? $icon : '-sort' }}"></span>
                             </th>
 
                             <th wire:click="sortable('email')" class="th-pointer table-th text-center" scope="col">Correo electrónico
-                                <span class=" th-span fas fa{{ $camp === 'email' ? $icon : '-sort' }}"></span>
+                                <span class=" th-span fa fa{{ $camp === 'email' ? $icon : '-sort' }}"></span>
                             </th>
                             <th class="table-th text-center" scope="col">Estado</th>
 
@@ -144,14 +148,14 @@
                             <td>{{ $user->email }}</td>
                             <td>
                                 <h6>
-                                    <span class=" badge {{ $user->user_status_id == 1 ? 'color-basic-2 ' : 'color-red'}}">
+                                    <span class=" badge {{ $user->user_status_id == 1 ? 'badge-success-inverse ' : 'badge-danger-inverse'}}">
                                             {{ strtoupper( $user->status_name)}}
                                     </span>
                                 </h6>
                             </td>
                             <td>
                                 <h6>
-                                    <span class="badge color-basic ">
+                                    <span class="badge badge-primary-inverse ">
                                         {{ strtoupper($user->roles()->first()->name ?? 'N/A' )}}
                                     </span>
                                 </h6>
@@ -161,7 +165,7 @@
                                 <a href="javascript:void(0)" class="btn btn-dark color-basic"
                                     wire:click="showModal({{ $user->id }})" data-toggle="tooltip" data-placement="top"
                                     title="Editar usuario">
-                                    <i class="far fa-edit"></i>
+                                    <i class="fa fa-edit"></i>
                                 </a>
                                 @endcan
 
@@ -176,7 +180,7 @@
                                 <a href="javascript:void(0)" class="btn btn-dark color-basic"
                                     wire:click="$emit('addPermission',{{ $user->id }},'user')" data-toggle="tooltip"
                                     data-placement="top" title="Editar permisos">
-                                    <i class="fa fa-unlock-keyhole"></i>
+                                    <i class="fa fa-unlock"></i>
                                 </a>
                                 @endcan
                             </td>

@@ -1,6 +1,6 @@
 <div>
     <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="{{$idModal}}" data-backdrop="static" data-keyboard="false"
+    <div wire:ignore.self class="modal fade" id="{{$idModal}}"  data-keyboard="false"
         tabindex="-1" aria-labelledby="{{$idModal}}Label" aria-hidden="true">
         <div class="modal-dialog {{$classModalDialog}} {{$classSize}}">
             <div class="modal-content">
@@ -11,7 +11,7 @@
                     {{$slot}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" 
+                    <button type="button" class="btn btn-secondary"
                         wire:click="cerrarModal">Cancelar
                     </button>
                     @if($action)

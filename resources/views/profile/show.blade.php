@@ -1,5 +1,5 @@
 
-@extends('layouts.admin.app')
+@extends('layouts.admin.appenetero')
 
 
 @section('content')
@@ -43,11 +43,11 @@
         }
         .mytabs .label {
             padding: 10px 17px;
-            background: #c0c0c0;
+            background: #b7b7b7;
             font-weight: bold;
             flex: inline-block;
             margin-bottom: 0rem;
-            margin-left:5px;
+            margin-left:0px;
             border-top: 1px solid;
             border-left: 1px solid;
             border-right: 1px solid;
@@ -56,7 +56,7 @@
         .mytabs .tab {
             width: 100%;
             padding: 15px 20px;
-            background: rgb(241, 241, 241);
+            background: #343a40;
             order: 1;
             display: none;
             border: :
@@ -70,7 +70,7 @@
         }
 
         .mytabs input[type="radio"]:checked + .label {
-            background: rgb(241, 241, 241);
+            background: #343a40;
         }
     </style>
 @endpush

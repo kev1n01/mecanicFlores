@@ -47,7 +47,7 @@ class LiveCreateSale extends Component
         return view('livewire.admin.sale.live-create-sale', [
                 'denominations' => Denomination::orderBy('value','desc')->get(),
             'cart' => Cart::getContent()->sortBy('name')])
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
     public function ACash($value){
         $this->efectivo += ($value == 0 ? $this->total : $value);

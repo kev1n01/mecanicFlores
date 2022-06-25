@@ -23,7 +23,7 @@ class Index extends Component
     public $perPage = 5;
     public $camp = null;
     public $order = null;
-    public $icon = '-circle';
+    public $icon = '-sort';
 
     // Variables de filtros
     public $user_role = '';
@@ -81,7 +81,7 @@ class Index extends Component
         //En la vista usar for $users as $user => $user->users_status->name
 
         return view('livewire.admin.user.index',['users' => $users])
-                    ->extends('layouts.admin.app')->section('content');
+                    ->extends('layouts.admin.appenetero')->section('content');
     }
 
     //funcion para resetear variables
@@ -109,11 +109,11 @@ class Index extends Component
         switch ($this->order) {
             case null:
                 $this->order = 'asc';
-                $this->icon = '-sort-amount-down-alt';
+                $this->icon = '-sort-amount-asc';
                 break;
             case 'asc':
                 $this->order = 'desc';
-                $this->icon = '-sort-amount-down';
+                $this->icon = '-sort-amount-desc';
                 break;
             case 'desc':
                 $this->order = null;
@@ -128,7 +128,7 @@ class Index extends Component
         if(!$sort){
             return '-sort';
         }
-        return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
+        return $sort === 'asc' ? '-sort-amount-asc' : '-sort-amount-desc';
     }
     // funcion que llama al modal de edicion o creacion de usuario
     public function showModal(User $user){

@@ -41,6 +41,9 @@ class Product extends Model
     public function getStatusNameAttribute(){
         return $this->product_status->name == 'active' ? 'activo' : 'inactivo';
     }
+    public function getNameProductAttribute(){
+        return substr($this->name,1,10);
+    }
     public function scopeTermino($query,$termino){
         if($termino === ''){
             return;

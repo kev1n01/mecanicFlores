@@ -21,7 +21,7 @@ class ModalBrand extends Component
     public $active_brand_add = false;
     public $active_brand_update = false;
 
-    protected $listeners = ['toogleModalBrand'];
+    protected $listeners = ['toogleModalBrand','deleteBrand'];
 
     public function render()
     {

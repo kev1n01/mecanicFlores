@@ -72,13 +72,13 @@
                                             <td class="text-center"><p>S/ {{number_format($item->price * $item->quantity,2)}}</p></td>
                                             <td class="text-center">
                                                 <button wire:click.prevent="removeItem({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                                 <button wire:click.prevent="decreaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i class="fa fa-minus"></i>
                                                 </button>
                                                 <button wire:click.prevent="increaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                    <i class="fas fa-plus"></i>
+                                                    <i class="fa fa-plus"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -154,11 +154,11 @@
                                             EFECTIVO (F8)
                                         </span>
                                     </div>
-                                    <input type="number" id="cash" wire:model="efectivo" class="form-control text-center"
+                                    <input type="number" id="cash" wire:model="efectivo" class="form-control text-center " disabled
                                     value="{{ $efectivo }}">
                                     <div class="input-group-append">
                                         <span wire:click="clearEfectivo" class=" th-pointer input-group-text" style="background: #2A3F54; color: white;  height: 85%; font-size: 1rem; ">
-                                            <i class="fas fa-backspace fa-2x"></i>
+                                            <i class="fa fa-refresh fa-2x"></i>
                                         </span>
                                     </div>
                                 </div>

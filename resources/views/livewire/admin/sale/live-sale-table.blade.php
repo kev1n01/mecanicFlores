@@ -9,51 +9,60 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="col-md-1  col-sm-2 ">
-                <select wire:model="perPage" class="form-control">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-sm-10 search">
-                <input type="text" wire:model="search" class="form-control "
-                       placeholder="Busqueda por datos en general ">
-            </div>
-
-            <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
-                    type="button" wire:click="clear">
-                <i class="fas fa-eraser"></i><span> Limpiar</span>
-            </button>
-
-            @can('usuario create')
-                <div class="btn-group mb-1">
-                    <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Crear
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('sales.create') }}"><i class="fas fa-plus"></i> Venta</a>
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2   ">
+                            <select wire:model="perPage" class="form-control">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class=" col-md-10 ">
+                            <input type="text" wire:model="search" class="form-control "
+                                   placeholder="Busqueda por datos en general ">
+                        </div>
                     </div>
                 </div>
-            @endcan
+                <div class="col-md-6">
+                    <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+                            type="button" wire:click="clear">
+                        <i class="fa fa-eraser"></i><span> Limpiar</span>
+                    </button>
 
-            <div class="btn-group mb-1">
-                <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                    Exportar
-                    @if ($selectedRows)
-                        <span class="badge badge-default" style="background-color: white; color: #0f0f0f;">{{  count($selectedRows)  }}</span>
-                    @endif
-                </button>
-                <div class="dropdown-menu" >
-                    {{--                    <a class="dropdown-item " href="{{ route('providers.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>--}}
-                    <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
-                    <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
-                    <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                    @can('usuario create')
+                        <div class="btn-group mb-1">
+                            <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-plus"></i> Crear Nuevo
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('sales.create') }}"> Venta</a>
+                            </div>
+                        </div>
+                    @endcan
+
+                    <div class="btn-group mb-1">
+                        <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                            Exportar
+                            @if ($selectedRows)
+                                <span class="badge badge-default" style="background-color: white; color: #0f0f0f;">{{  count($selectedRows)  }}</span>
+                            @endif
+                        </button>
+                        <div class="dropdown-menu" >
+                            {{--                    <a class="dropdown-item " href="{{ route('providers.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>--}}
+                            <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
+                            <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                            <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="card-body">
@@ -93,7 +102,7 @@
                         </th>
                         <th class="icon-filter">
                             <span>
-                                <i class="fas fa-filter"></i>
+                                <i class="ti ti-filter"></i>
                                 Filtrar por
                             </span>
                         </th>
@@ -110,14 +119,15 @@
                             </div>
                         </th>
                         <th width="20%" wire:click="sortable('customer_id')" class="th-pointer table-th text-center" scope="col">Cliente
-                            <span class=" th-span fas fa{{ $camp === 'customer_id' ? $icon : '-sort' }} "></span>
+                            <span class=" th-span fa fa{{ $camp === 'customer_id' ? $icon : '-sort' }} "></span>
                         </th>
                         <th class="table-th text-center" scope="col">Fecha</th>
                         <th class="table-th text-center" scope="col">Estado</th>
                         <th width="15%" wire:click="sortable('total')" class="th-pointer table-th text-center" scope="col">Total
-                            <span class=" th-span fas fa{{ $camp === 'total' ? $icon : '-sort' }}"></span>
+                            <span class=" th-span fa fa{{ $camp === 'total' ? $icon : '-sort' }}"></span>
                         </th>
-                        <th class="table-th text-center" scope="col">Vendedor</th>
+                        <th class="th-pointer table-th text-center" wire:click="sortable('user_id')" scope="col">Vendedor
+                            <span class=" th-span fa fa{{ $camp === 'user_id' ? $icon : '-sort' }}"></span></th>
                         <th class="table-th text-center" scope="col">Acciones</th>
                     </tr>
                     </thead>
@@ -143,7 +153,7 @@
                                         <a href="javascript:void(0)" class="btn btn-dark color-basic "
                                            wire:click="$emit('toogleModalPurchase',{{ $sale->id }},'Purchase')" data-toggle="tooltip" data-placement="top"
                                            title="Editar compra">
-                                            <i class="far fa-edit"></i>
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     @endcan
 

@@ -8,55 +8,63 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="col-md-1  col-sm-2 ">
-                <select wire:model="perPage" class="form-control">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
-            <div class="form-group col-md-4 col-sm-10 search">
-                <input type="text" wire:model="search" class="form-control "
-                       placeholder="Busqueda por datos en general ">
-            </div>
-
-            <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
-                    type="button" wire:click="clear">
-                <i class="fas fa-eraser"></i><span> Limpiar</span>
-            </button>
-
-            @can('usuario create')
-                <div class="btn-group mb-1">
-                    <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Crear
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('purchases_create.table') }}"><i class="fas fa-plus"></i> Compra</a>
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2   ">
+                            <select wire:model="perPage" class="form-control">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class=" col-md-10 ">
+                            <input type="text" wire:model="search" class="form-control "
+                                   placeholder="Busqueda por datos en general ">
+                        </div>
                     </div>
                 </div>
-            @endcan
-            <div class="btn-group mb-1">
-                <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                    Exportar
-                    @if ($selectedRows)
-                        <span class="badge badge-default" style="background-color: white; color: #0f0f0f;">{{  count($selectedRows)  }}</span>
-                    @endif
-                </button>
-                <div class="dropdown-menu" >
-                    {{--                    <a class="dropdown-item " href="{{ route('providers.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>--}}
-                    <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
-                    <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
-                    <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                <div class="col-md-6">
+                    <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+                            type="button" wire:click="clear">
+                        <i class="fa fa-eraser"></i><span> Limpiar</span>
+                    </button>
+
+                    @can('usuario create')
+                        <div class="btn-group mb-1">
+                            <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-plus"></i> Crear Nueva
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('purchases_create.table') }}"> Compra</a>
+                            </div>
+                        </div>
+                    @endcan
+                    <div class="btn-group mb-1">
+                        <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                            <i class="fa fa-export"></i>Exportar
+                            @if ($selectedRows)
+                                <span class="badge badge-default" style="background-color: white; color: #0f0f0f;">{{  count($selectedRows)  }}</span>
+                            @endif
+                        </button>
+                        <div class="dropdown-menu" >
+                            {{--                    <a class="dropdown-item " href="{{ route('providers.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>--}}
+                            <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
+                            <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                            <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table ">
                     <tr>
                         <th></th>
                         <th>
@@ -64,7 +72,7 @@
                         </th>
 
                         <th>
-                            <input class="form-control date" placeholder="fecha" type="text" wire:model="dateSearch" >
+                            <input class="form-control " placeholder="fecha" type="date" wire:model="dateSearch">
                         </th>
 
                         <th>
@@ -99,7 +107,7 @@
 
                         <th class="icon-filter">
                             <span>
-                                <i class="fas fa-filter"></i>
+                                <i class="ti ti-filter"></i>
                                 Filtrar por
                             </span>
                         </th>
@@ -116,14 +124,14 @@
                         </th>
 
                         <th width="10%" wire:click="sortable('code_purchase')" class="th-pointer table-th text-center" scope="col">Código
-                            <span class=" th-span fas fa{{ $camp === 'code_purchase' ? $icon : '-sort' }} "></span>
+                            <span class=" th-span fa fa{{ $camp === 'code_purchase' ? $icon : '-sort' }} "></span>
                         </th>
                         <th width="15%" wire:click="sortable('date_purchase')" class="th-pointer table-th text-center" scope="col">Fecha
-                            <span class=" th-span fas fa{{ $camp === 'date_purchase' ? $icon : '-sort' }}"></span>
+                            <span class=" th-span fa fa{{ $camp === 'date_purchase' ? $icon : '-sort' }}"></span>
                         </th>
 
                         <th wire:click="sortable('total')" class="th-pointer table-th text-center" scope="col">Total
-                            <span class=" th-span fas fa{{ $camp === 'total' ? $icon : '-sort' }}"></span>
+                            <span class=" th-span fa fa{{ $camp === 'total' ? $icon : '-sort' }}"></span>
                         </th>
 
                         <th class="table-th text-center" scope="col">Proveedor</th>
@@ -165,7 +173,7 @@
                                         <a href="javascript:void(0)" class="btn btn-dark color-basic "
                                            wire:click="$emit('toogleModalPurchase',{{ $purchase->id }},'Purchase')" data-toggle="tooltip" data-placement="top"
                                            title="Editar compra">
-                                            <i class="far fa-edit"></i>
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     @endcan
 

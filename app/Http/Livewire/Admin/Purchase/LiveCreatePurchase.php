@@ -71,7 +71,7 @@ class LiveCreatePurchase extends Component
         return view('livewire.admin.purchase.live-create-purchase', [
             'products' => $products,
             'cart' => Cart::getContent()->sortBy('name')])
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
     public function addToCart($code,$cant=1){
         $product = Product::where('code',$code)->first();

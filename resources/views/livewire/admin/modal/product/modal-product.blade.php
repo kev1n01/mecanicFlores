@@ -17,8 +17,8 @@
                             <input wire:model="category_name" id="category_name" type="text" class="form-control" placeholder="nombre categoria">
                         </div>
                         <span class="input-group-btn pl-2">
-                        <button class="btn btn-dark" wire:click.prevent="addCategory"><i class="fa fa-floppy-disk"></i></button>
-                        <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-xmark"></i></button>
+                        <button class="btn btn-dark" wire:click.prevent="addCategory"><i class="fa fa-floppy-o"></i></button>
+                        <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-close"></i></button>
                         </span>
                     @else
                         <div class="input-group-btn">
@@ -45,8 +45,8 @@
                             <input wire:model="brand_name" id="brand_name" type="text" class="form-control "placeholder="nombre marca">
                         </div>
                         <span class="input-group-btn pl-2">
-                        <button class="btn btn-dark" wire:click.prevent="addBrand"><i class="fa fa-floppy-disk"></i></button>
-                        <button class="btn btn-danger" wire:click.prevent="cancelAddBrand"><i class="fa fa-xmark"></i></button>
+                        <button class="btn btn-dark" wire:click.prevent="addBrand"><i class="fa fa-floppy-o"></i></button>
+                        <button class="btn btn-danger" wire:click.prevent="cancelAddBrand"><i class="fa fa-close"></i></button>
                         </span>
                     @else
                         <span class="input-group-btn">

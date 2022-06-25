@@ -9,8 +9,8 @@
                         <input wire:model="name_update" id="name_update" type="text" class="form-control " placeholder="nombre categoria">
                     </div>
                     <span class="input-group-btn pl-2">
-                            <button class="btn btn-dark" wire:click.prevent="editCategory"><i class="fa fa-floppy-disk"></i></button>
-                            <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-xmark"></i></button>
+                            <button class="btn btn-dark" wire:click.prevent="editCategory"><i class="fa fa-floppy-o"></i></button>
+                            <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-close"></i></button>
                         </span>
                 @else
                     @if($this->active_category_add )
@@ -18,8 +18,8 @@
                             <input wire:model="name" id="name" type="text" class="form-control " placeholder="nombre categoria">
                         </div>
                         <span class="input-group-btn pl-2">
-                            <button class="btn btn-dark" wire:click.prevent="addCategory"><i class="fa fa-floppy-disk"></i></button>
-                            <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-xmark"></i></button>
+                            <button class="btn btn-dark" wire:click.prevent="addCategory"><i class="fa fa-floppy-o"></i></button>
+                            <button class="btn btn-danger" wire:click.prevent="cancelAddCategory"><i class="fa fa-close"></i></button>
                         </span>
                     @else
                         <span class="input-group-btn">
@@ -28,7 +28,7 @@
                     @endif
                 @endif
             </div>
-
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <table class="table">
                 <thead>
                 <tr>
@@ -47,11 +47,11 @@
                                 <a href="javascript:void(0)" class="btn btn-info"
                                    wire:click="activeUpdateCategory({{ $category->id }})" data-toggle="tooltip" data-placement="top"
                                    title="Editar categoria">
-                                    <i class="far fa-edit"></i>
+                                    <i class="fa fa-edit"></i>
                                 </a>
 
                                 <a href="javascript:void(0)" class="btn btn-danger"
-                                   wire:click="deleteBrand({{ $category->id }})" data-toggle="tooltip" data-placement="top"
+                                   onclick="Confirm({{ $category->id }},'deleteCategory')"  data-toggle="tooltip" data-placement="top"
                                    title="Eliminar categoria">
                                     <i class="fa fa-trash"></i>
                                 </a>
@@ -62,6 +62,7 @@
                     </tbody>
                 @endif
             </table>
+            </div>
         </x-component-modal>
     </form>
 </div>

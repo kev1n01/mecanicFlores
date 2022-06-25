@@ -7,56 +7,63 @@
     </nav>
 
     <div class="card">
-
         <div class="card-header">
-            <div class="col-md-1  col-sm-2 ">
-                <select wire:model="perPage" class="form-control">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </div>
-
-            <div class="form-group col-md-4 col-sm-10 search">
-                <input type="text" wire:model="search" class="form-control "
-                       placeholder="Busqueda por datos en general ">
-            </div>
-
-            <button class="btn btn-dark color-basic" data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
-                    type="button" wire:click="clear">
-                <i class="fas fa-eraser"></i><span> Limpiar</span>
-            </button>
-
-            @can('usuario create')
-                <div class="btn-group mb-1">
-                    <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Crear
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" wire:click="$emit('toogleModalProduct')"><i class="fas fa-plus"></i> Producto</a>
-                        <a class="dropdown-item" wire:click="$emit('toogleModalBrand')"><i class="fas fa-plus"></i> Marca</a>
-                        <a class="dropdown-item" wire:click="$emit('toogleModalCategory')"><i class="fas fa-plus"></i> Categoria</a>
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2   ">
+                            <select wire:model="perPage" class="form-control">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class=" col-md-10 ">
+                            <input type="text" wire:model="search" class="form-control "
+                                   placeholder="Busqueda por datos en general ">
+                        </div>
                     </div>
                 </div>
-            @endcan
-            <div class="btn-group mb-1">
-                <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                    <i class="fas fa-file-excel"></i>
-                    Exportar
-                    @if ($selectedRows)
-                        <span class="badge badge-default badge-color" >{{  count($selectedRows)  }}</span>
-                    @endif
-                </button>
-                <div class="dropdown-menu" >
-                    <a class="dropdown-item " href="{{ route('products.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
-                    <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
-                    <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
-                    <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                <div class="col-md-6">
+                    <button class="btn btn-dark color-basic " data-toggle="tooltip" data-placement="top" title="Limpiar filtros"
+                            type="button" wire:click="clear">
+                        <i class="fa fa-eraser"></i><span> Limpiar</span>
+                    </button>
+
+                    @can('usuario create')
+                        <div class="btn-group mb-1">
+                            <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-plus"></i> Crear Nuevo
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" wire:click="$emit('toogleModalProduct')">Producto</a>
+                                <a class="dropdown-item" wire:click="$emit('toogleModalBrand')">Marca</a>
+                                <a class="dropdown-item" wire:click="$emit('toogleModalCategory')"> Categoria</a>
+                            </div>
+                        </div>
+                    @endcan
+                    <div class="btn-group mb-1">
+                        <button type="button" class="btn btn-dark color-basic dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                            <i class="fas fa-file-excel"></i>
+                            Exportar
+                            @if ($selectedRows)
+                                <span class="badge badge-default" style="background-color: white; color: #0f0f0f;" >{{  count($selectedRows)  }}</span>
+                            @endif
+                        </button>
+                        <div class="dropdown-menu" >
+                            <a class="dropdown-item " href="{{ route('products.pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                            <a class="dropdown-item" wire:click.prevent="export('pdf')"><i class="fas fa-file-pdf"></i> PDF SIMPLE</a>
+                            <a class="dropdown-item" wire:click.prevent="export('excel')"><i class="fas fa-file-excel"></i> XLSX</a>
+                            <a class="dropdown-item" wire:click.prevent="export('csv')"><i class="fas fa-file-csv"></i> CSV</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="card-body">
@@ -106,13 +113,13 @@
                         </th>
                         <th class="text-center">
                             <span>
-                                <i class="fas fa-filter"></i>
+                                <i class="ti ti-filter"></i>
                                 Filtrar por
                             </span>
                         </th>
                     </tr>
 
-                    <thead class="thead-basic">
+                    <thead style="background: #2A3F54; color: white;">
                     <tr>
                         <th>
                             <div class="icheck-primary" style="height: 15px">
@@ -124,14 +131,14 @@
 
                         <th class="table-th text-center" scope="col">Imagen</th>
                         <th width="60px" wire:click="sortable('code')" class="th-pointer table-th text-center" scope="col">Código
-                            <span class=" th-span fas fa{{ $camp === 'code' ? $icon : '-sort' }} "></span>
+                            <span class=" th-span fa fa{{ $camp === 'code' ? $icon : '-sort' }} "></span>
                         </th>
-                        <th width="17%" wire:click="sortable('name')" class="th-pointer table-th text-center" scope="col">Nombre
-                            <span class=" th-span fas fa{{ $camp === 'name' ? $icon : '-sort' }}"></span>
+                        <th wire:click="sortable('name')" class="th-pointer table-th text-center" scope="col">Nombre
+                            <span class=" th-span fa fa{{ $camp === 'name' ? $icon : '-sort' }}"></span>
                         </th>
 
-                        <th wire:click="sortable('stock')" class="th-pointer table-th text-center" scope="col">Stock
-                            <span class=" th-span fas fa{{ $camp === 'stock' ? $icon : '-sort' }}"></span>
+                        <th width="10%"  wire:click="sortable('stock')" class="th-pointer table-th text-center" scope="col">Stock
+                            <span class=" th-span fa fa{{ $camp === 'stock' ? $icon : '-sort' }}"></span>
                         </th>
 
                         <th class="table-th text-center" scope="col">Estado</th>
@@ -144,8 +151,7 @@
                     @if ($products->count())
                         <tbody>
                         @foreach ($products as $product)
-                            <tr class="tr-custom  "
-                                >
+                            <tr class="">
                                 <th style="width: 10px;">
                                     <div class="icheck-primary d-inline">
                                         <input wire:model="selectedRows" type="checkbox" value="{{ $product->id }}"
@@ -159,24 +165,24 @@
                                          class="rounded-circle" alt="{{ $product->name }}">
                                 </td>
                                 <td>{{ $product->code }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td class="th-pointer {{$product->stock <= 18 ? 'table-danger' : 'table-success'}}" wire:click="addProductToPurchase({{$product->id}})" >{{ $product->stock }}</td>
+                                <td>{{ substr($product->name,0,20) }}</td>
+                                <td class="th-pointer text-center {{$product->stock <= 18 ? 'table-danger' : 'table-success'}}" wire:click="addProductToPurchase({{$product->id}})" >{{ $product->stock }}</td>
                                 <td>
                                     <h6>
-                                        <span class=" badge {{ $product->product_status_id == 1 ? 'color-basic-2' : 'color-red'}}">
+                                        <span class=" badge {{ $product->product_status_id == 1 ? 'badge-success-inverse ' : 'badge-danger-inverse'}}">
                                             {{ strtoupper( $product->status_name)}}
                                         </span>
                                     </h6>
                                 </td>
                                 <td>{{ $product->category_product->name }}</td>
-                                <td>{{ $product->brand_product->name }}</td>
+                                <td>{{ substr($product->brand_product->name,0,10)}}</td>
 
                                 <td width="12%">
                                     @can('usuario update')
                                         <a href="javascript:void(0)" class="btn btn-dark color-basic"
                                            wire:click="$emit('toogleModalProduct',{{ $product->id }},'Product')" data-toggle="tooltip" data-placement="top"
                                            title="Editar producto">
-                                            <i class="far fa-edit"></i>
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     @endcan
 

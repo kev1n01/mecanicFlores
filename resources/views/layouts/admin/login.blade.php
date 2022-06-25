@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
         @yield('title', config('app.name'))
     </title>
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/build/images/logomecanic.png')}}"/>
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet"  type="text/css" />
-
-    <link href="{{ asset('assets/build/css/plugins.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/build/css/structure.css') }}" rel="stylesheet" type="text/css" class="structure" />
-    <link href="{{ asset('assets/build/css/authentication/form-1.css') }}" rel="stylesheet" type="text/css" />
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/build/css/forms/theme-checkbox-radio.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/build/css/forms/switches.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="admin fot enetero market shop" />
+    <meta name="author" content="Enetero minimarket" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ asset('assets/css/vendors.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 </head>
-<body class="form ">
-<div class="form-container">
-    <div class="form-form">
-        <div class="form-form-wrap">
-            <div class="form-container">
-                <div class="form-content">
-                    @yield('content')
+
+<body class="bg-white">
+<!-- begin app -->
+<div class="app">
+    <!-- begin app-wrap -->
+    <div class="app-wrap">
+        <!--start login contant-->
+        <div class="app-contant">
+            <div class="bg-white">
+                <div class="container-fluid p-0">
+                    <div class="row no-gutters">
+                        <div class="col-sm-6 col-lg-5 col-xxl-3  align-self-center order-2 order-sm-1">
+                            <div class="d-flex align-items-center h-100-vh">
+                                @yield('content')
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xxl-9 col-lg-7 bg-gradient o-hidden order-1 order-sm-2">
+                            <div class="row align-items-center h-100">
+                                <div class="col-7 mx-auto ">
+                                    <img class="img" src="{{asset('assets/img/login-img.png')}}" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--end login contant-->
     </div>
-    <div class="form-image">
-        <div class="l-image">
-        </div>
-    </div>
+    <!-- end app-wrap -->
 </div>
+<!-- end app -->
 
-
-<!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-<script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/build/bootstrap/js/popper.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/bootstrap/js/bootstrap.min.js') }}"></script>
-
-<!-- END GLOBAL MANDATORY SCRIPTS -->
-<script src="{{ asset('assets/build/js/authentication/form-1.js') }}"></script>
-
+<script src="{{ asset('assets/js/vendors.js') }}"></script>
+<script src="{{ asset('assets/js/app1.js') }}"></script>
 </body>
+
 </html>

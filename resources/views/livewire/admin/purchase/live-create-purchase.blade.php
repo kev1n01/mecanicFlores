@@ -26,7 +26,7 @@
                         <input type="text" class="form-control" placeholder="Código" disabled wire:model="code_purchase">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control date" placeholder="Fecha" wire:model="date_purchase"
+                        <input type="date" class="form-control " placeholder="Fecha" wire:model="date_purchase"
                                @if(!$provider_id) disabled @endif >
                     </div>
                     <div class="col">
@@ -46,7 +46,7 @@
                            placeholder="Buscar...">
                     <div class="input-group-append">
                         <button class="btn btn-dark" type="button" wire:click="resetSearch()" >
-                            <i class="fas fa-sync-alt"></i >
+                            <i class="fa fa-eraser"></i >
                         </button>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                                 <td>{{$product->name}}</td>
                                 <td>
                                     <button type="button"  wire:click="addToCart({{$product->code}})" class="btn btn-dark">
-                                        <i class="fas fa-plus"></i>
+                                        <i class="fa fa-plus"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -118,13 +118,13 @@
                                         <td class="text-center"><p>S/ {{number_format($item->price * $item->quantity,2)}}</p></td>
                                         <td class="text-center">
                                             <button wire:click.prevent="removeItem({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                <i class="fas fa-trash-alt"></i>
+                                                <i class="fa fa-trash"></i>
                                             </button>
                                             <button wire:click.prevent="decreaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                <i class="fas fa-minus"></i>
+                                                <i class="fa fa-minus"></i>
                                             </button>
                                             <button wire:click.prevent="increaseQty({{ $item->id }})" class="btn btn-dark mbmobile">
-                                                <i class="fas fa-plus"></i>
+                                                <i class="fa fa-plus"></i>
                                             </button>
                                         </td>
                                     </tr>

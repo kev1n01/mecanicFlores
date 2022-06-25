@@ -73,7 +73,7 @@ class LiveProviderTable extends Component
 
         $providers = $providers->paginate($this->perPage);
         return view('livewire.admin.provider.live-provider-table', compact('providers'))
-            ->extends('layouts.admin.app')->section('content');
+            ->extends('layouts.admin.appenetero')->section('content');
     }
     //funcion para resetear variables
     public function clear()
@@ -108,11 +108,11 @@ class LiveProviderTable extends Component
         switch ($this->order) {
             case null:
                 $this->order = 'asc';
-                $this->icon = '-sort-amount-down-alt';
+                $this->icon = '-sort-amount-asc';
                 break;
             case 'asc':
                 $this->order = 'desc';
-                $this->icon = '-sort-amount-down';
+                $this->icon = '-sort-amount-desc';
                 break;
             case 'desc':
                 $this->order = null;
@@ -129,7 +129,7 @@ class LiveProviderTable extends Component
         if (!$sort) {
             return '-sort';
         }
-        return $sort === 'asc' ? '-sort-amount-down-alt' : '-sort-amount-down';
+        return $sort === 'asc' ? '-sort-amount-asc' : '-sort-amount-desc';
     }
     // funcion que elimina un usuario
     public function deleteProvider(Provider $provider)
