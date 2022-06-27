@@ -123,8 +123,6 @@
                         @endif
                     </div>
                 </div>
-
-
             </div>
         </x-component-modal>
     </form>

@@ -14,13 +14,13 @@ class SaleEstatusSeeder extends Seeder
      */
     public function run()
     {
-        SaleEstatus::factory()->create([
+        SaleEstatus::create([
             'name' => 'pagada'
         ]);
-        SaleEstatus::factory()->create([
+        SaleEstatus::create([
             'name' => 'pendiente',
         ]);
-        SaleEstatus::factory()->create([
+        SaleEstatus::create([
             'name' => 'cancelada',
         ]);
     }

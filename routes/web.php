@@ -12,13 +12,16 @@ Route::get('/report/products', [\App\Http\Livewire\Admin\Product\LiveProductTabl
 
 //Ruta vista home sin auth
 Route::get('/', \App\Http\Livewire\User\HomeController::class)->name('user.home');
+Route::get('/store', \App\Http\Livewire\User\LiveStoreController::class)->name('user.store');
+Route::get('/cart', \App\Http\Livewire\User\LiveCartController::class)->name('user.cart');
+Route::view('/about', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');
+Route::get('/contact', \App\Http\Livewire\User\LiveContactController::class)->name('user.contact');
 
-//Rutas con prefix user
-Route::group(['middleware' => ['auth:sanctum'],'prefix' => 'user'], function () {
-    //Ruta para redirigir al home del user
-//    Route::get('/home', \App\Http\Livewire\User\HomeController::class)->name('user.home')
-//        ->middleware('can_view:cliente');
-
+//Rutas para cliente auth
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    //Actualizar perfil cliente
+    Route::get('/perfil', \App\Http\Livewire\User\LiveProfileController::class)->name('user.profile')
+        ->middleware('can_view:cliente');
 });
 
 

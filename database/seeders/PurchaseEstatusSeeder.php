@@ -14,19 +14,19 @@ class PurchaseEstatusSeeder extends Seeder
      */
     public function run()
     {
-        PurchaseEstatus::factory()->create([
+        PurchaseEstatus::create([
             'name' => 'nueva'
         ]);
-        PurchaseEstatus::factory()->create([
+        PurchaseEstatus::create([
             'name' => 'aprobada',
         ]);
-        PurchaseEstatus::factory()->create([
+        PurchaseEstatus::create([
             'name' => 'restrasada',
         ]);
-        PurchaseEstatus::factory()->create([
+        PurchaseEstatus::create([
             'name' => 'recibida',
         ]);
-        PurchaseEstatus::factory()->create([
+        PurchaseEstatus::create([
             'name' => 'anulada',
         ]);
     }
