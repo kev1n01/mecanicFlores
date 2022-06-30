@@ -1,6 +1,6 @@
 @section('title','Contacto Enetero')
 <div>
-    <div class="container">
+    <div class="container" style="padding-top: 50px; !important;">
         <div class="contact-page">
             <div class="contact-info">
                 <div class="row">
@@ -50,14 +50,9 @@
                 </div>
             </div>
 
-            <div class="contact-map">
-                <div id="map"></div>
-                <div class="hidden-lg hidden-md hidden-sm hidden-xs contact-address">815 Sunset Boulevard Ca 70079</div>
-            </div>
-
             <div class="contact-intro">
                 <p>“Proin gravida nibh vel velit auctor aliquet. Aenean sollicudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vultate cursus a sit amet mauris. Proin gravida nibh vel velit auctor”</p>
-                <img src="img/contact-icon.png" alt="Contact Comment">
+                <img src="{{ asset('assetsuser/img/contact-icon.png')}}" alt="Contact Comment">
             </div>
 
             <div class="contact-form form">

@@ -18,5 +18,11 @@ class HomeController extends Component
             ->extends('layouts.user.app')->section('content');
     }
 
+    public function addToCartHome($barcode){
+        $gocart = new LiveCartController();
+        $gocart->addToCart($barcode);
+        $this->emit('successful_alert','El producto fue agregado');
+
+    }
 
 }

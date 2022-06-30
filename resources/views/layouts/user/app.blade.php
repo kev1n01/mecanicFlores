@@ -91,52 +91,7 @@
 
                         <!-- Cart -->
                         <div class="block-cart dropdown">
-                            <div class="cart-title">
-                                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                <span class="cart-count">2</span>
-                            </div>
 
-                            <div class="dropdown-content">
-                                <div class="cart-content">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td class="product-image">
-                                                <a
-                                                    <img src="" alt="Product">
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <div class="product-name">
-                                                    <a >Organic Strawberry Fruits</a>
-                                                </div>
-                                                <div>
-                                                    2 x <span class="product-price">$28.98</span>
-                                                </div>
-                                            </td>
-                                            <td class="action">
-                                                <a class="remove">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="total">
-                                            <td>Total:</td>
-                                            <td colspan="2">$92.96</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="cart-button">
-                                                    <a class="btn btn-primary" href="{{route('user.cart')}}" title="Ver carrito">Ver carrito</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- My Account -->
@@ -145,6 +100,9 @@
                                 <i class="zmdi zmdi-menu"></i>
                             </div>
                             <div class="dropdown-menu">
+                                <div class="item">
+                                    <a href="{{route('user.cart')}}" ><i class="fa fa-shopping-cart"></i>Ver carrito</a>
+                                </div>
                                 @if(Auth::user())
                                     <div class="item">
                                         <a href="{{route('user.profile')}}" ><i class="fa fa-cog"></i>Mi perfil</a>
@@ -167,13 +125,9 @@
                                     </div>
                                 @else
                                     <div class="item">
-                                        <a href="{{route('user.cart')}}" ><i class="fa fa-shopping-cart"></i>Ver carrito</a>
-                                    </div>
-                                    <div class="item">
                                         <a type="button" data-toggle="modal" data-target="#ModalLogin" >
                                             <i class="fa fa-sign-in"></i>Iniciar sesión
                                         </a>
-
                                     </div>
                                     <div class="item">
                                         <a type="button" data-toggle="modal" data-target="#ModalRegister" >
@@ -346,7 +300,45 @@
 
 <!-- Template CSS -->
 <script src="{{ asset('assetsuser/js/main.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+<script>
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        background: '#80b77e',
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+    function ToastSuccessfulNotification(msg) {
+        Toast.fire({
+            icon: 'success',
+            title: msg,
+        })
+    }
+    function ToastWarningNotification(msg) {
+        Toast.fire({
+            icon: 'error',
+            title: msg,
+        })
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        window.livewire.on('successful_alert', Msg => {
+            ToastSuccessfulNotification(Msg);
+        });
+        window.livewire.on('warning_alert', Msg => {
+            ToastWarningNotification(Msg);
+        });
+
+    });
+</script>
 @stack('modals')
 @stack('scripts')
 @livewireScripts

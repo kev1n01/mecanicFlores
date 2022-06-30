@@ -12,15 +12,37 @@
                             <div class="filter-content">
                                 <ul style="max-height: 500px !important;">
                                     @foreach($categories as $c)
-                                    <li>
-                                        <label class="check">
+                                        <li>
+                                            <label class="check" wire:click="addidcategory({{$c->id}})">
                                             <span class="custom-checkbox">
                                                 <input type="checkbox">
                                                 <span class="checkmark"></span>
                                             </span>
-                                            <a>{{$c->name}} <span class="quantity">({{$c->products_count}})</span></a>
-                                        </label>
-                                    </li>
+                                                <a>{{$c->name}} <span class="quantity">({{$c->products_count}})</span></a>
+                                            </label>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block product-filter">
+                    <h3 class="block-title">Marcas</h3>
+                    <div class="block-content">
+                        <div class="filter-item">
+                            <div class="filter-content">
+                                <ul style="max-height: 500px !important;">
+                                    @foreach($brands as $b)
+                                        <li>
+                                            <label class="check" wire:click="addidbrand({{$b->id}})">
+                                            <span class="custom-checkbox">
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </span>
+                                                <a>{{$b->name}} <span class="quantity">({{$b->products_count}})</span></a>
+                                            </label>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -85,14 +107,9 @@
                                                 <p>
                                                     {{ $p->category_product->name }}
                                                 </p>
-                                            </div>
-
-                                            <div class="product-rating">
-                                                <div class="star on"></div>
-                                                <div class="star on"></div>
-                                                <div class="star on "></div>
-                                                <div class="star on"></div>
-                                                <div class="star"></div>
+                                                <p>
+                                                    {{ $p->brand_product->name }}
+                                                </p>
                                             </div>
 
                                             <div class="product-price">
@@ -100,7 +117,7 @@
                                             </div>
 
                                             <div class="product-buttons">
-                                                <a class="add-to-cart"  wire:click="addtocart({{$p->code}})">
+                                                <a class="add-to-cart"  wire:click="addToCartStore({{$p->code}})">
                                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                                 </a>
                                             </div>
@@ -132,16 +149,11 @@
                                                     <p>
                                                         {{ $p->category_product->name }}
                                                     </p>
+                                                    <p>
+                                                        {{ $p->brand_product->name }}
+                                                    </p>
                                                 </div>
 
-                                                <div class="product-rating">
-                                                    <div class="star on"></div>
-                                                    <div class="star on"></div>
-                                                    <div class="star on "></div>
-                                                    <div class="star on"></div>
-                                                    <div class="star"></div>
-                                                    <span class="review-count">(3 Reviews)</span>
-                                                </div>
                                                 <div class="product-price">
                                                     <span class="sale-price">S/. {{ $p->sale_price}}</span>
                                                 </div>
@@ -152,7 +164,7 @@
                                                 </div>
 
                                                 <div class="product-buttons">
-                                                    <a class="add-to-cart" wire:click="addtocart({{$p->code}})">
+                                                    <a class="add-to-cart" wire:click="addToCartStore({{$p->code}})">
                                                         <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                                     </a>
                                                 </div>

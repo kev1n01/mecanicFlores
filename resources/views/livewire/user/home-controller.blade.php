@@ -28,6 +28,9 @@
                                         <p >
                                         {{ $p->category_product->name}}
                                         </p>
+                                        <p>
+                                            {{ $p->brand_product->name }}
+                                        </p>
                                     </div>
 
                                     <div class="product-price">
@@ -35,7 +38,7 @@
                                     </div>
 
                                     <div class="product-buttons">
-                                        <a class="add-to-cart" wire:click="addtocart({{$p->code}})">
+                                        <a class="add-to-cart" wire:click="addToCartHome({{$p->code}})">
                                             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                         </a>
                                     </div>

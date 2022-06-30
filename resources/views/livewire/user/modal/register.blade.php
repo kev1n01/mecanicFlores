@@ -9,19 +9,19 @@
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Nombres <span class="text-danger">*</span></label>
                         <x-jet-input class="{{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name"
-                                     :value="old('name')"  autofocus autocomplete="name" />
+                                     :value="old('name')"  required autofocus autocomplete="name" />
                         <x-jet-input-error for="name"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Email <span class="text-danger">*</span></label>
                         <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email"
-                                     :value="old('email')"  />
+                                     :value="old('email')"  required/>
                         <x-jet-input-error for="email"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Contraseña <span class="text-danger">*</span></label>
                         <x-jet-input class="{{ $errors->has('password') ? 'is-invalid' : '' }}" type="password"
-                                     name="password"  autocomplete="new-password" />
+                                     name="password"  autocomplete="new-password" required/>
                         <x-jet-input-error for="password"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
@@ -30,17 +30,17 @@
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Ruc</label>
-                        <x-jet-input class="form-control" type="text" name="ruc"  />
+                        <x-jet-input class="form-control" type="text" name="ruc"  required/>
                         <x-jet-input-error for="ruc"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Dni</label>
-                        <x-jet-input class="form-control" type="text" name="dni"  />
+                        <x-jet-input class="form-control" type="text" name="dni"  required/>
                         <x-jet-input-error for="dni"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Celular </label>
-                        <x-jet-input class="form-control" type="text" name="phone"  />
+                        <x-jet-input class="form-control" type="text" name="phone" required />
                         <x-jet-input-error for="phone"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">

@@ -129,6 +129,7 @@
 
 <script src="{{ asset('assets/js/vendors.js') }}"></script>
 <script src="{{ asset('assets/js/app1.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 

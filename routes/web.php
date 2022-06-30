@@ -14,7 +14,7 @@ Route::get('/report/products', [\App\Http\Livewire\Admin\Product\LiveProductTabl
 Route::get('/', \App\Http\Livewire\User\HomeController::class)->name('user.home');
 Route::get('/store', \App\Http\Livewire\User\LiveStoreController::class)->name('user.store');
 Route::get('/cart', \App\Http\Livewire\User\LiveCartController::class)->name('user.cart');
-Route::view('/about', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');
+Route::get('/about', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');
 Route::get('/contact', \App\Http\Livewire\User\LiveContactController::class)->name('user.contact');
 
 //Rutas para cliente auth
