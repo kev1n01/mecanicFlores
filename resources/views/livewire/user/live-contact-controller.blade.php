@@ -56,27 +56,27 @@
             </div>
 
             <div class="contact-form form">
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form wire:submit.prevent="sendEmail" >
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <input type="text" name="name" placeholder="YOUR NAME">
+                            <input type="text" name="name" placeholder="YOUR NAME" wire:model="name" >
                         </div>
 
                         <div class="col-md-6">
-                            <input type="email" name="email" placeholder="YOUR EMAIL">
+                            <input type="email" name="email" placeholder="YOUR EMAIL" wire:model="email" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="subject" placeholder="SUBJECT">
+                        <input type="text" name="subject" placeholder="SUBJECT" wire:model="subject" required>
                     </div>
 
                     <div class="form-group">
-                        <textarea rows="10" name="content" placeholder="MESSAGE"></textarea>
+                        <input  type="text" name="message" placeholder="MESSAGE" wire:model="mensaje" required>
                     </div>
 
                     <div class="form-group text-center">
-                        <input type="submit" class="btn btn-primary" value="Send Message">
+                        <input wire:click.prevent="sendEmail" type="submit" class="btn btn-primary" value="Enviar mensaje">
                     </div>
                 </form>
             </div>

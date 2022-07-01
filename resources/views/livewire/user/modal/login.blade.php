@@ -19,7 +19,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Password <span class="text-danger">*</span></label>
                                         <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                              required autocomplete="current-password" >
+                                               autocomplete="current-password" >
                                         <x-jet-input-error for="password"></x-jet-input-error>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                                             <label class="form-check-label" for="gridCheck">
                                                 Recordarme
                                             </label>
-                                        <a href="{{route('password.request')}}" class="p-5">¿Olvidó su cotraseña?</a>
+{{--                                        <a href="{{route('password.request')}}" class="p-5">¿Olvidó su cotraseña?</a>--}}
                                         </div>
                                     </div>
                                 </div>

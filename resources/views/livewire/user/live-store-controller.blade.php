@@ -13,9 +13,9 @@
                                 <ul style="max-height: 500px !important;">
                                     @foreach($categories as $c)
                                         <li>
-                                            <label class="check" wire:click="addidcategory({{$c->id}})">
+                                            <label class="check" >
                                             <span class="custom-checkbox">
-                                                <input type="checkbox">
+                                                <input type="checkbox" wire:model="filters.categories.{{$c->id}}">
                                                 <span class="checkmark"></span>
                                             </span>
                                                 <a>{{$c->name}} <span class="quantity">({{$c->products_count}})</span></a>
@@ -35,9 +35,9 @@
                                 <ul style="max-height: 500px !important;">
                                     @foreach($brands as $b)
                                         <li>
-                                            <label class="check" wire:click="addidbrand({{$b->id}})">
+                                            <label class="check">
                                             <span class="custom-checkbox">
-                                                <input type="checkbox">
+                                                <input type="checkbox" wire:model="filters.brands.{{$b->id}}">
                                                 <span class="checkmark"></span>
                                             </span>
                                                 <a>{{$b->name}} <span class="quantity">({{$b->products_count}})</span></a>

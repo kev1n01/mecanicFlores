@@ -12,10 +12,11 @@ Route::get('/report/products', [\App\Http\Livewire\Admin\Product\LiveProductTabl
 
 //Ruta vista home sin auth
 Route::get('/', \App\Http\Livewire\User\HomeController::class)->name('user.home');
-Route::get('/store', \App\Http\Livewire\User\LiveStoreController::class)->name('user.store');
-Route::get('/cart', \App\Http\Livewire\User\LiveCartController::class)->name('user.cart');
-Route::get('/about', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');
-Route::get('/contact', \App\Http\Livewire\User\LiveContactController::class)->name('user.contact');
+Route::get('/tienda', \App\Http\Livewire\User\LiveStoreController::class)->name('user.store');
+Route::get('/mi-carrito', \App\Http\Livewire\User\LiveCartController::class)->name('user.cart');
+Route::get('/nosotros', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');
+Route::get('/contacto', \App\Http\Livewire\User\LiveContactController::class)->name('user.contact');
+Route::get('/mis-compras', \App\Http\Livewire\User\LiveMyPurchase::class)->name('user.purchase');
 
 //Rutas para cliente auth
 Route::group(['middleware' => ['auth:sanctum']], function () {

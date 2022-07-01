@@ -14,21 +14,14 @@ class LiveStoreController extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $perPage = 9;
-    public $categories = [];
-    public $brands = [];
-    public $product_brand_id = null ;
-    public $product_category_id = null ;
+    public $filters = [
+        'categories' =>[],
+        'brands' =>[],
+    ];
+
     public $camp = null;
     public $order = null;
 
-    public function addidcategory($id){
-        $this->product_category_id = $id;
-//        dd($id);
-    }
-    public function addidbrand($id){
-        $this->product_brand_id = $id;
-//        dd($id);
-    }
 
     public function mount(){
         $this->categories = CategoryProduct::withCount(['products'])->get();
@@ -43,30 +36,36 @@ class LiveStoreController extends Component
 
     public function render()
     {
-        $products = Product::with(['category_product','brand_product'])
-            ->where('product_status_id',1)
-            ->orWhere('stock','>=',1)
-            ->orWhereHas('category_product',function ($q){
-                $q->where('id','like',"%{$this->product_category_id}%");
-            })
-            ->orWhereHas('brand_product',function ($q){
-                $q->where('id','like',"%{$this->product_brand_id}%");
-            });
-        if ($this->product_category_id != null){
-            $products = $products->category($this->product_category_id);
+        if (empty($this->filters['categories']))
+        {
+            $products = Product::where('product_status_id',1)
+                ->orWhere('stock','>=',1)->paginate($this->perPage);
+//            dd($products);
         }
-        if ($this->product_brand_id != null){
-            $products = $products->brand($this->product_brand_id);
+
+        if ($this->filters['categories']) {
+            $this->filters['categories'] = array_filter($this->filters['categories']);
+            $products = Product::whereIn('category_product_id', array_keys($this->filters['categories']))
+                ->paginate($this->perPage);
+//            dd($products);
+        }
+
+        if ($this->filters['brands']){
+            $this->filters['brands'] = array_filter($this->filters['brands']);
+            $products = Product::whereIn('brand_product_id',array_keys($this->filters['brands']))
+                ->paginate($this->perPage);
+//                        dd($products);
+
         }
 
         if ($this->camp && $this->order) {
-            $products = $products->orderBy($this->camp, $this->order);
+            $products = Product::orderBy($this->camp, $this->order)
+                ->paginate($this->perPage);
         } else {
             $this->camp = null;
             $this->order = null;
         }
 
-        $products = $products->paginate($this->perPage);
         return view('livewire.user.live-store-controller',compact('products'))
             ->extends('layouts.user.app')->section('content');
     }

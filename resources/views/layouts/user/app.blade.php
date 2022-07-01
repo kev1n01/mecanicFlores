@@ -107,6 +107,9 @@
                                     <div class="item">
                                         <a href="{{route('user.profile')}}" ><i class="fa fa-cog"></i>Mi perfil</a>
                                     </div>
+                                    <div class="item">
+                                        <a href="{{route('user.purchase')}}" ><i class="fa fa-shopping-bag"></i>Mis compras</a>
+                                    </div>
 
                                     @if(Auth::user()->roles()->first()->name === 'administrador')
                                         <div class="item">

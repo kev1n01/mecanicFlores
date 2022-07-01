@@ -30,7 +30,7 @@
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">
                         <label class="control-label">Ruc</label>
-                        <x-jet-input class="form-control" type="text" name="ruc"  required/>
+                        <x-jet-input class="form-control" type="text" name="ruc"  />
                         <x-jet-input-error for="ruc"></x-jet-input-error>
                     </div>
                     <div  style="padding-bottom: 10px;"  class="mb-3">

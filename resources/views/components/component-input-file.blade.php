@@ -1,4 +1,4 @@
-<div>
+    <div>
     <label for="{{$name}}" class="col-form-label "></label>
     <div class="custom-file">
         <input type="file" class="custom-file-input" wire:model="{{$name}}" id="{{$name}}"  >

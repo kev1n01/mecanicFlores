@@ -1,72 +1,101 @@
 @section('title','Mi perfil')
 <div>
-    <div class="container" style="margin-top: 50px; padding-top:50px; background: #cecece;">
+    <div class="container" style="margin-top: 50px; padding-top:50px;">
         <div class="col-md-12">
             <div class="col-md-4">
                 <div class="portlet light profile-sidebar-portlet bordered">
                     <div class="profile-userpic">
-                        <img  src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="img-responsive" >
+                            @if($photo)
+                                <img src="{{ $photo->temporaryURL() }}"
+                                     class="img-responsive">
+                            @else
+                                @if($profile_photo_path_update)
+                                    <img src="{{ asset('storage/'.$profile_photo_path_update) }}"
+                                         class="img-responsive" alt="{{ $name }}">
+                                @elseif($profile_photo_url)
+                                    <img src="{{ asset($profile_photo_url) }}"
+                                         class="img-responsive" alt="{{ $name }}">
+                                @endif
+                            @endif
+
                     </div>
                     <div class="profile-usertitle">
-                        <div class="profile-usertitle-name"> Marcus Doe </div>
-                        <div class="profile-usertitle-job"> Developer </div>
+                        @if ($this->user->profile_photo_path)
+                            <button type="button" class="mt-2 btn btn-dark" wire:click="deleteProfilePhoto">Remover foto
+                            </button>
+                        @endif
+                        <div class="profile-usertitle-name"> {{Auth::user()->name}}</div>
+                        <div class="profile-usertitle-job"> {{Auth::user()->email}}</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="portlet light bordered">
-                    <div class="portlet-title tabbable-line">
-                        <div class="caption caption-md">
-                            <i class="icon-globe theme-font hide"></i>
-                            <span class="caption-subject font-blue-madison bold uppercase">Your info</span>
-                        </div>
-                    </div>
-                    <div class="portlet-body">
-                        <div>
+                            <div  style="padding-top: 10px;">
+                                    <form wire:submit.prevent="actualizar">
+                                        <div class="col-md-6 " >
+                                            <x-component-input name="state.email" label="" placeholder="Email" type="email">
+                                            </x-component-input>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <x-component-input name="state.name" label="" placeholder="Nombre" type="text">
+                                            </x-component-input>
+                                        </div>
 
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Update</a></li>
-                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-                            </ul>
+                                        <div class="col-md-6 ">
+                                            <x-component-input name="state.ruc" label="" placeholder="Ruc" type="text">
+                                            </x-component-input>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <x-component-input name="state.dni" label="" placeholder="Dni" type="text">
+                                            </x-component-input>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <x-component-input name="state.phone" label="" placeholder="Celular" type="text">
+                                            </x-component-input>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <x-component-input name="state.address" label="" placeholder="Dirección" type="text">
+                                            </x-component-input>
+                                        </div>
 
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="home">
-                                    <form>
-                                        <div class="form-group mt-1">
-                                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                        <div class="col-md-12">
+                                            <x-component-input-file name="photo" label="">
+                                            </x-component-input-file>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">File input</label>
-                                            <input type="file" id="exampleInputFile">
-                                            <p class="help-block">Example block-level help text here.</p>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> Check me out
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="btn btn-default">Submit</button>
+
+                                        <button type="submit" class="btn btn-default" >Guardar</button>
                                     </form>
+                            </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div  style="padding-top: 10px;">
+                        <form wire:submit.prevent="updatePassword">
+
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <label for="current_password"></label>
+                                    <input type="password" class="form-control" name="current_password"
+                                           wire:model.defer="statepass.current_password" placeholder="Contraseña actual">
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="profile">Profile</div>
-                                <div role="tabpanel" class="tab-pane" id="messages">Messages</div>
-                                <div role="tabpanel" class="tab-pane" id="settings">Settings</div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label for="password"></label>
+                                    <input type="password" class="form-control" name="password"
+                                           wire:model.defer="statepass.password" placeholder="Contraseña">
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label for="password_confirmation"></label>
+                                    <input type="password" class="form-control" name="password_confirmation"
+                                           wire:model.defer="statepass.password_confirmation" placeholder="Confirmar contraseña">
+                                </div>
                             </div>
 
-                        </div>
+                            <button type="submit" class="btn btn-default" >Guardar</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -485,7 +514,8 @@
         }
 
         .portlet>.portlet-empty {
-            min-height: 125px
+            min-height: 200px;
+            max-height: 300px;
         }
 
         .portlet.full-height-content {
