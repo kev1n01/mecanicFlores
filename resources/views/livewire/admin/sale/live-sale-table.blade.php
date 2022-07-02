@@ -79,7 +79,7 @@
                             </select>
                         </th>
                         <th>
-                            <input class="form-control date" placeholder="fecha" type="text" wire:model="dateSearch" >
+                            <input class="form-control date" placeholder="fecha" type="date" wire:model="dateSearch" >
                         </th>
                         <th>
                             <select class="form-control " wire:model="sale_status_id">
@@ -148,12 +148,12 @@
                                 <td>S/. {{ $sale->total }}</td>
                                 <td>{{ $sale->user->name }}</td>
 
-                                <td width="12%">
+                                <td width="15%">
                                     @can('usuario update')
-                                        <a href="javascript:void(0)" class="btn btn-dark color-basic "
-                                           wire:click="$emit('toogleModalPurchase',{{ $sale->id }},'Purchase')" data-toggle="tooltip" data-placement="top"
-                                           title="Editar compra">
-                                            <i class="fa fa-edit"></i>
+                                        <a href="javascript:void(0)" class="btn btn-dark color-basic text-center "
+                                           wire:click="viewDetails({{$sale->id}},{{$sale->customer_id}})" data-toggle="tooltip" data-placement="top"
+                                           title="Ver detalle">
+                                            <i class="fa fa-list"></i>
                                         </a>
                                     @endcan
 
@@ -199,16 +199,22 @@
         </div>
     </div>
 </div>
-
-@push('styles')
-
+@push('modals')
+    @livewire('admin.modal.sale.modal-details')
 @endpush
 
 @push('scripts')
 
     <script>
 
+        window.addEventListener('close-modal-detail', event => {
+            $('#SaleDetailsModal').modal('hide');
+        });
+        window.addEventListener('open-modal-detail', event => {
+            $('#SaleDetailsModal').modal('show');
+        });
     </script>
 
 @endpush
+
 

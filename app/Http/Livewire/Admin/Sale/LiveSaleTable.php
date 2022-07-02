@@ -15,6 +15,7 @@ class LiveSaleTable extends Component
     // Variables de busqueda
     public $search = '';
     public $dateSearch = '';
+    public $purchase_status_id = '';
 
     // Variables de paginado y orden
     public $perPage = 5;
@@ -128,5 +129,9 @@ class LiveSaleTable extends Component
     {
         can('usuario delete');
         $sale->delete();
+    }
+
+    public function viewDetails(Sale $sale,$customer_id){
+        $this->emit('toogleSaleModalDetails',$customer_id,$sale->id);
     }
 }

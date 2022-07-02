@@ -219,14 +219,11 @@ class LiveCreateSale extends Component
             $this->total = Cart::getTotal();
             $this->itemsQuantity = Cart::getTotalQuantity();
             $this->emit('successful_alert', 'Venta registrada!');
-            $this->emit('print_ticket', $sale->id);
         }catch (\Exception $e){
             DB::rollback();
             $this->emit('warning_alert', $e->getMessage());
         }
     }
 
-    public function printTicket($sale){
-        return Redirect::to("print://$sale->id");
-    }
+
 }
