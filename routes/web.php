@@ -12,6 +12,7 @@ Route::get('/report/products', [\App\Http\Livewire\Admin\Product\LiveProductTabl
 
 //Ruta vista home sin auth
 Route::get('/', \App\Http\Livewire\User\HomeController::class)->name('user.home');
+Route::get('/redirect', [\App\Http\Livewire\User\HomeController::class,'redirectLogin'])->name('login.redirect');
 Route::get('/tienda', \App\Http\Livewire\User\LiveStoreController::class)->name('user.store');
 Route::get('/mi-carrito', \App\Http\Livewire\User\LiveCartController::class)->name('user.cart');
 Route::get('/nosotros', \App\Http\Livewire\User\LiveAboutController::class)->name('user.about');

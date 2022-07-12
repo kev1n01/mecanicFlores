@@ -111,7 +111,7 @@
                                         <a href="{{route('user.purchase')}}" ><i class="fa fa-shopping-bag"></i>Mis compras</a>
                                     </div>
 
-                                    @if(Auth::user()->roles()->first()->name === 'administrador')
+                                    @if(Auth::user()->roles()->first()->name === 'administrador' || Auth::user()->roles()->first()->name === 'vendedor')
                                         <div class="item">
                                             <a href="{{route('admin.dashboard')}}" ><i class="fa fa-dashboard"></i>Panel administrativo</a>
                                         </div>

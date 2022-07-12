@@ -25,7 +25,7 @@ class UpdateProductRequest extends FormRequest
             'product_status_id' => 'required',
             'category_product_id' => 'required',
             'brand_product_id' => 'required',
-            'image_product' => 'nullable|image|mimes:jpg,png,jpeg'
+            'image_product' => 'nullable|image'
         ];
 
     }

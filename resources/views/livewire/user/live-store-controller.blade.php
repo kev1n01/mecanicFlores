@@ -6,7 +6,9 @@
             <div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
                 <!-- Block - Filter -->
                 <div class="block product-filter">
+                    <div class="row">
                     <h3 class="block-title">Categorias</h3>
+                    </div>
                     <div class="block-content">
                         <div class="filter-item">
                             <div class="filter-content">
@@ -80,6 +82,11 @@
                                     <div class="select pull-right" >
                                         <button wire:click="sortable('sale_price')" class="form-control" style="width: 6.9 pc;">
                                             Por precio
+                                        </button>
+                                    </div>
+                                    <div class="select pull-right" >
+                                        <button wire:click="clearFilters" class=" btn btn-primary" style="width: 6.9 pc;">
+                                            Limpiar filtros
                                         </button>
                                     </div>
                                 </div>

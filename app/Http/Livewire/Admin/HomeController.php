@@ -30,7 +30,7 @@ class HomeController extends Component
         ];
         $chart1 = new LaravelChart($chart_options);
         $chart_options = [
-            'chart_title' => 'Ventas de la dia',
+            'chart_title' => 'Ventas del día',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Sale',
             'group_by_field' => 'created_at',

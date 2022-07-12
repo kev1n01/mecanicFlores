@@ -4,6 +4,7 @@ namespace App\Http\Livewire\User;
 
 use App\Models\CategoryProduct;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 class HomeController extends Component
 {
@@ -23,6 +24,17 @@ class HomeController extends Component
         $gocart->addToCart($barcode);
         $this->emit('successful_alert','El producto fue agregado');
 
+    }
+    public function redirectLogin(){
+        if (Auth::user()->roles()->first()->name === 'cliente'){
+            return redirect()->route('user.home');
+        }
+        if (Auth::user()->roles()->first()->name === 'administrador'){
+            return redirect()->route('admin.dashboard');
+        }
+        if (Auth::user()->roles()->first()->name === 'vendedor'){
+            return redirect()->route('sales.table');
+        }
     }
 
 }

@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function redirectUser(){
         if (!Auth::user()){
-            return redirect()->route('login');
+            return redirect()->route('admin.dashboard');
         }
         if (Auth::user()->roles()->first()->name === 'cliente'){
             return redirect()->route('user.home');
@@ -19,9 +19,6 @@ class HomeController extends Controller
         }
         if (Auth::user()->roles()->first()->name === 'vendedor'){
             return redirect()->route('sales.create');
-        }
-        if (Auth::user()->roles()->first()->name === 'empleado'){
-            return redirect()->route('user.myprofile');
         }
     }
 }

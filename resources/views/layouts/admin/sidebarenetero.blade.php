@@ -56,6 +56,9 @@
                         </ul>
                     </li>
                 @endif
+                <li >
+                    <a href="{{ route('user.home') }}"><i class="nav-icon fa fa-th "></i><span class="nav-title">Ir tienda</span></a>
+                </li>
         </ul>
     </div>
     <!-- end sidebar-nav -->

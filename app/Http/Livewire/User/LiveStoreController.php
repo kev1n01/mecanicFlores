@@ -33,7 +33,10 @@ class LiveStoreController extends Component
         $this->brands = BrandProduct::withCount(['products'])->get();
 //        dd($this->$elements);
     }
-
+    public function clearFilters(){
+        $this->filters['categories'] = [];
+        $this->filters['brands'] = [];
+    }
     public function render()
     {
         if (empty($this->filters['categories']))
