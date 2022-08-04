@@ -156,7 +156,7 @@ class LiveCreateSale extends Component
     }
     public function removeItem($productId){
         Cart::remove($productId);
-        $this->total =Cart::getTotal();
+        $this->total = Cart::getTotal();
         $this->itemsQuantity = Cart::getTotalQuantity();
         $this->emit('successful_alert', 'El producto se eliminó del carrito');
     }

@@ -71,7 +71,7 @@ class Index extends Component
             $users = $users->orderBy($this->camp, $this->order);
         }else{
             $this->camp = null;
-            $this->order = null;
+            $this->order = null; 
         }
         $users = $users->paginate($this->perPage);
 
