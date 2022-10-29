@@ -151,7 +151,7 @@
                                     <div class="input-group-prepend">
                                         <span style="background: #2A3F54; color: white; height: 85%; font-size: .8rem;"
                                               class=" input-group-text input-gp hideonsm">
-                                            EFECTIVO (F8)
+                                               EFECTIVO (F8)
                                         </span>
                                     </div>
                                     <input type="number" id="cash" wire:model="efectivo" class="form-control text-center"

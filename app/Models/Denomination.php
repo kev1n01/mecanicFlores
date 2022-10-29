@@ -9,7 +9,7 @@ class Denomination extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'type',
+        'type', 
         'value'
     ];
 }
